@@ -3,14 +3,13 @@ package aakumykov.ru.fragmentsandviews;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 
-public class MainFragment extends Fragment implements iFragment {
+public class MainFragment extends BaseFragment {
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -19,4 +18,17 @@ public class MainFragment extends Fragment implements iFragment {
         ButterKnife.bind(this, view);
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        showToast(R.string.fragment_started);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        showToast(R.string.fragment_stopped);
+    }
+
 }

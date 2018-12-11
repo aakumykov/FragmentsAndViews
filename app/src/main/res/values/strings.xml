@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FragmentsAndViews</string>
+    <string name="fragment_started">Фрагмент запущен</string>
+    <string name="fragment_stopped">Фрагмент остановлен</string>
 </resources>

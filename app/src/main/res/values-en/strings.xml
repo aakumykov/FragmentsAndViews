@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FragmentsAndViews</string>
+    <string name="fragment_started">Fragment started</string>
+    <string name="fragment_stopped">Fragment stopped</string>
+</resources>
