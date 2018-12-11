@@ -1,6 +1,6 @@
 package aakumykov.ru.fragmentsandviews;
 
-public interface iFragment {
+public interface iBaseFragment {
 
     void showProgressMessage(int messageId);
     void hideProgressMessage();

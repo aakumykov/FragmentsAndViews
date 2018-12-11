@@ -1,7 +1,8 @@
 package aakumykov.ru.fragmentsandviews;
 
-public interface iPage {
+public interface iBaseView {
 
     void setPageTitle(int titleId);
+    void setPageTitle(String title);
 
 }
