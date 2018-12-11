@@ -11,6 +11,10 @@ import butterknife.ButterKnife;
 
 public class MainFragment extends BaseFragment {
 
+    public interface iInteractions {
+        void onButtonClicked(String message);
+    }
+
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);

@@ -4,8 +4,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainPage extends AppCompatActivity implements iPage {
-
+public class MainPage extends AppCompatActivity implements
+        MainFragment.iInteractions
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -13,9 +14,9 @@ public class MainPage extends AppCompatActivity implements iPage {
     }
 
     @Override
-    public void setPageTitle(int titleId) {
-        ActionBar actionBar = getSupportActionBar();
-        if (null != actionBar)
-            actionBar.setTitle(titleId);
+    public void onButtonClicked(String message) {
+
     }
+
+
 }
