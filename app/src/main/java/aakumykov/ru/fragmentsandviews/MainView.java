@@ -9,6 +9,7 @@ public class MainView extends BaseView implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        setPageTitle(R.string.MAIN_VIEW_page_title);
     }
 
     @Override

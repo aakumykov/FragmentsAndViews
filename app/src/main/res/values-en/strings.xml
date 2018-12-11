@@ -3,4 +3,7 @@
     <string name="app_name">FragmentsAndViews</string>
     <string name="fragment_started">Fragment started</string>
     <string name="fragment_stopped">Fragment stopped</string>
+    <string name="LIST_VIEW_page_title">List</string>
+    <string name="MAIN_VIEW_page_title">Main page</string>
+    <string name="fullTitle">%s - FragmentsAndViews</string>
 </resources>

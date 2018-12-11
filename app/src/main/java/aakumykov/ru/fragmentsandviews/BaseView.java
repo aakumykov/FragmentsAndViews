@@ -16,7 +16,8 @@ public class BaseView extends AppCompatActivity implements iBaseView {
     @Override
     public void setPageTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
+        String fullTitle = getResources().getString(R.string.fullTitle, title);
         if (null != actionBar)
-            actionBar.setTitle(title);
+            actionBar.setTitle(fullTitle);
     }
 }
