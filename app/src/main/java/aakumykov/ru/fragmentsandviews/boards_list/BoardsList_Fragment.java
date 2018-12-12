@@ -27,8 +27,8 @@ import butterknife.OnItemLongClick;
 public class BoardsList_Fragment extends BaseFragment {
 
     public interface iInteractionListener {
-        void onListItemClicked(int position);
-        void onListItemLongClicked(int position);
+        void onListItemClicked(String boardName);
+        void onListItemLongClicked(String boardName);
     }
 
     @BindView(R.id.listView) ListView listView;
@@ -82,12 +82,16 @@ public class BoardsList_Fragment extends BaseFragment {
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
-        interactionListener.onListItemClicked(position);
+        BoardsTOCItem item = list.get(position);
+        String boardName = item.getName();
+        interactionListener.onListItemClicked(boardName);
     }
 
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
-        interactionListener.onListItemLongClicked(position);
+        BoardsTOCItem item = list.get(position);
+        String boardName = item.getName();
+        interactionListener.onListItemLongClicked(boardName);
         return true;
     }
 

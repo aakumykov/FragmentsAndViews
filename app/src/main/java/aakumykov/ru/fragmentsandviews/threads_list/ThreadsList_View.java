@@ -7,11 +7,14 @@ import aakumykov.ru.fragmentsandviews.R;
 
 public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.iInteractionListener {
 
+    public static final String BOARD_NAME = "boardName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_view_activity);
         setPageTitle(R.string.THREADS_LIST_page_title);
+//        processInputIntent();
     }
 
     @Override
@@ -23,4 +26,19 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
     public void onListItemLongClicked(int position) {
         setPageTitle("Выбрана строка "+position);
     }
+
+
+//    private void processInputIntent() {
+//        Intent intent = getIntent();
+//        if (null == intent) {
+//            // TODO: сообщениеоб ошибке или просто игнорить?
+//        }
+//
+//        if (null != intent) {
+//            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
+//            if (null != boardName) {
+//
+//            }
+//        }
+//    }
 }

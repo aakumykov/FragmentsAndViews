@@ -1,6 +1,7 @@
 package aakumykov.ru.fragmentsandviews.threads_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -90,6 +91,21 @@ public class ThreadsList_Fragment extends BaseFragment {
         return true;
     }
 
+
+
+    private void processInputIntent() {
+        Intent intent = getActivity().getIntent();
+        if (null == intent) {
+            // TODO: сообщениеоб ошибке или просто игнорить?
+        }
+
+        if (null != intent) {
+            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
+            if (null != boardName) {
+                loadThreadsList(boardName);
+            }
+        }
+    }
 
     private void loadThreadsList(String boardName) {
         showProgressMessage(R.string.THREADS_LIST_loading_threads_list);

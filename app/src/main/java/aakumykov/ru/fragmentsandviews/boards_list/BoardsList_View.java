@@ -1,9 +1,12 @@
 package aakumykov.ru.fragmentsandviews.boards_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_Fragment;
+import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_View;
 
 public class BoardsList_View extends BaseView implements BoardsList_Fragment.iInteractionListener {
 
@@ -15,12 +18,15 @@ public class BoardsList_View extends BaseView implements BoardsList_Fragment.iIn
     }
 
     @Override
-    public void onListItemClicked(int position) {
-        setPageTitle("Нажата строка "+position);
+    public void onListItemClicked(String boardName) {
+        Intent intent = new Intent(this, ThreadsList_Fragment.class);
+        intent.putExtra(ThreadsList_View.BOARD_NAME, boardName);
+        startActivity(intent);
+
     }
 
     @Override
-    public void onListItemLongClicked(int position) {
-        setPageTitle("Выбрана строка "+position);
+    public void onListItemLongClicked(String boardName) {
+
     }
 }
