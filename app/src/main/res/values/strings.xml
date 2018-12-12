@@ -6,15 +6,15 @@
     <string name="MAIN_VIEW_page_title">Главная страница</string>
     <string name="fullTitle">%s - ФрагментыСтраницы</string>
     <string name="BOARDS_LIST_page_title">Список досок - Двач</string>
-    <string name="BOARDS_LIST_loading_boards_list">Получаем список досок</string>
+    <string name="BOARDS_LIST_loading_boards_list">Получаю список досок</string>
     <string name="BOARDS_LIST_error_loading_boards_list">Ошибка загрузки списка досок</string>
     <string name="THREADS_LIST_page_title">Список тредов...</string>
-    <string name="THREADS_LIST_loading_threads_list">Получаем список тредов</string>
+    <string name="THREADS_LIST_loading_threads_list">Получаю список тредов</string>
     <string name="THREADS_LIST_error_loading_threads_list">Ошибка загрузки списка тредов</string>
     <string name="THREADS_LIST_page_title_extended">Треды в «%s»</string>
     <string name="THREAD_SHOW_page_title">Обсуждение...</string>
     <string name="THREAD_SHOW_page_title_extended">Обсуждение «%s»</string>
     <string name="THREAD_SHOW_loading_thread">Загружаю тред</string>
     <string name="THREAD_SHOW_error_loading_thread">Ошибка загрузки треда</string>
-    <string name="THREAD_SHOW_thread_missing">Тред не существует</string>
+    <string name="THREAD_SHOW_thread_missing">Треда не существует</string>
 </resources>
