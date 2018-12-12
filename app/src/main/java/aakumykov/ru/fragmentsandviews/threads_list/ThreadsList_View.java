@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
 
-public class _View extends BaseView implements ThreadsList_Fragment.iInteractionListener {
+public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.iInteractionListener {
 
     public static final String BOARD_ID = "boardId";
 

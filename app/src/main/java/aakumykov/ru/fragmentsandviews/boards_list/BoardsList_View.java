@@ -5,8 +5,9 @@ import android.os.Bundle;
 
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_View;
 
-public class _View extends BaseView implements
+public class BoardsList_View extends BaseView implements
         BoardsList_Fragment.iInteractionListener
 {
     @Override
@@ -18,8 +19,8 @@ public class _View extends BaseView implements
 
     @Override
     public void onListItemClicked(String boardId) {
-        Intent intent = new Intent(this, aakumykov.ru.fragmentsandviews.threads_list._View.class);
-        intent.putExtra(aakumykov.ru.fragmentsandviews.threads_list._View.BOARD_ID, boardId);
+        Intent intent = new Intent(this, ThreadsList_View.class);
+        intent.putExtra(ThreadsList_View.BOARD_ID, boardId);
         startActivity(intent);
     }
 

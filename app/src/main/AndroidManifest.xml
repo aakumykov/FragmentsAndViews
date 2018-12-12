@@ -16,14 +16,14 @@
 
         <activity android:name=".TEMPLATE.List_View"/>
 
-        <activity android:name=".boards_list._View">
+        <activity android:name=".boards_list.BoardsList_View">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".threads_list._View" />
+        <activity android:name=".threads_list.ThreadsList_View" />
     </application>
 
 </manifest>
