@@ -18,11 +18,11 @@ public class ListAdapter extends ArrayAdapter<Element> {
 
     private LayoutInflater inflater;
     private int layout;
-    private List<Element> Elements;
+    private List<Element> list;
 
-    ListAdapter(Context context, int resource, List<Element> elements) {
-        super(context, resource, elements);
-        this.Elements = elements;
+    ListAdapter(Context context, int resource, List<Element> list) {
+        super(context, resource, list);
+        this.list = list;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
@@ -40,7 +40,7 @@ public class ListAdapter extends ArrayAdapter<Element> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Element element = Elements.get(position);
+        Element element = list.get(position);
 
         viewHolder.titleView.setText(element.getName());
 
