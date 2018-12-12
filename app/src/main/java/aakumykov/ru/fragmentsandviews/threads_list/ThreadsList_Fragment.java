@@ -39,10 +39,11 @@ public class ThreadsList_Fragment extends BaseFragment {
     private iInteractionListener interactionListener;
     private boolean firstRun = true;
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.list_fragment, container, false);
+        View view = inflater.inflate(R.layout.threads_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
         dvachService = DvachService.getInstance();
@@ -93,14 +94,10 @@ public class ThreadsList_Fragment extends BaseFragment {
 
 
 
-    private void processInputIntent() {
-        Intent intent = getActivity().getIntent();
-        if (null == intent) {
-            // TODO: сообщениеоб ошибке или просто игнорить?
-        }
+    public void processInputIntent(@Nullable Intent intent) {
 
         if (null != intent) {
-            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
+            String boardName = intent.getStringExtra(_View.BOARD_ID);
             if (null != boardName) {
                 loadThreadsList(boardName);
             }
@@ -125,7 +122,9 @@ public class ThreadsList_Fragment extends BaseFragment {
     }
 
     private void displayThreadsList(Board board) {
+
         List<Thread> threadsList = board.getThreads();
+
         for (int i=0; i<threadsList.size(); i++) {
             Thread thread = threadsList.get(i);
             list.add(thread);

@@ -83,8 +83,8 @@ public class BoardsList_Fragment extends BaseFragment {
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         BoardsTOCItem item = list.get(position);
-        String boardName = item.getName();
-        interactionListener.onListItemClicked(boardName);
+        String boardId = item.getId();
+        interactionListener.onListItemClicked(boardId);
     }
 
     @OnItemLongClick(R.id.listView)

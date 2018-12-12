@@ -43,7 +43,7 @@ public class ThreadsList_Adapter extends ArrayAdapter<Thread> {
 
         Thread item = list.get(position);
 
-        viewHolder.titleView.setText(item.getName());
+        viewHolder.titleView.setText(item.getSubject());
 
         return convertView;
     }

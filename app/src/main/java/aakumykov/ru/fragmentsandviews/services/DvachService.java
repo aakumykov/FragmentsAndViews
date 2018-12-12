@@ -101,7 +101,7 @@ public class DvachService implements iDvachService {
 
     @Override
     public void getBoard(String boardName, final BoardReadCallbacks callbacks) {
-        dvachAPI.getBoard("sex").enqueue(new Callback<Board>() {
+        dvachAPI.getBoard(boardName).enqueue(new Callback<Board>() {
             @Override
             public void onResponse(@NonNull Call<Board> call, @NonNull Response<Board> response) {
                 callbacks.onBardReadSuccess(response.body());
