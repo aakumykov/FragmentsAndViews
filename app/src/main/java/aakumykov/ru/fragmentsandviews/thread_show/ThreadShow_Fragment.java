@@ -17,6 +17,7 @@ import aakumykov.ru.fragmentsandviews.BaseFragment;
 import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.models.Thread.OneThread;
 import aakumykov.ru.fragmentsandviews.models.Thread.Post;
+import aakumykov.ru.fragmentsandviews.models.Thread.Thread;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
 import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_View;
@@ -39,7 +40,8 @@ public class ThreadShow_Fragment extends BaseFragment {
     private List<Post> list;
     private iInteractionListener interactionListener;
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
@@ -86,7 +88,7 @@ public class ThreadShow_Fragment extends BaseFragment {
 
             // TODO: перенести в Константы?
             String threadNum = intent.getStringExtra(ThreadShow_View.THREAD_NUM);
-            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_ID);
+            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
 
             if (null != boardName && null != threadNum) {
                 loadThread(boardName, threadNum);
@@ -101,6 +103,7 @@ public class ThreadShow_Fragment extends BaseFragment {
             @Override
             public void onThreadReadSuccess(OneThread oneThread) {
                 interactionListener.setPageTitleFromFragment(oneThread.getTitle());
+                hideProgressMessage();
                 displayThread(oneThread);
             }
 
@@ -112,6 +115,11 @@ public class ThreadShow_Fragment extends BaseFragment {
     }
 
     private void displayThread(OneThread oneThread) {
-
+        List<Thread> threadList = oneThread.getThreads();
+        if (threadList.size() > 0) {
+            Thread thread = threadList.get(0);
+            list.addAll(thread.getPosts());
+            listAdapter.notifyDataSetChanged();
+        }
     }
 }

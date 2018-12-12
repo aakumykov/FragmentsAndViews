@@ -20,7 +20,7 @@ public class BoardsList_View extends BaseView implements
     @Override
     public void onListItemClicked(String boardId) {
         Intent intent = new Intent(this, ThreadsList_View.class);
-        intent.putExtra(ThreadsList_View.BOARD_ID, boardId);
+        intent.putExtra(ThreadsList_View.BOARD_NAME, boardId);
         startActivity(intent);
     }
 

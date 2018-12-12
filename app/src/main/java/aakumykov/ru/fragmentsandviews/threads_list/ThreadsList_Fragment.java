@@ -101,7 +101,7 @@ public class ThreadsList_Fragment extends BaseFragment {
     public void processInputIntent(@Nullable Intent intent) {
 
         if (null != intent) {
-            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_ID);
+            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
             if (null != boardName) {
                 this.boardName = boardName;
                 loadThreadsList(boardName);

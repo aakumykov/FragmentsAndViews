@@ -6,12 +6,11 @@ import android.support.v4.app.FragmentManager;
 
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_Fragment;
 import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_View;
 
 public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.iInteractionListener {
 
-    public static final String BOARD_ID = "boardId";
+    public static final String BOARD_NAME = "boardId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
     public void onListItemClicked(String boardName, String threadNum) {
         Intent intent = new Intent(this, ThreadShow_View.class);
         intent.putExtra(ThreadShow_View.THREAD_NUM, threadNum);
+        intent.putExtra(ThreadsList_View.BOARD_NAME, boardName);
         startActivity(intent);
     }
 

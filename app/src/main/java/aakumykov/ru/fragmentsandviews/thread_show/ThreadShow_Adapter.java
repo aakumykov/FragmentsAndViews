@@ -44,13 +44,13 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
 
         Post post = list.get(position);
 
-        viewHolder.titleView.setText(post.getName());
+        viewHolder.threadComment.setText(post.getComment());
 
         return convertView;
     }
 
     static class ViewHolder {
-        @BindView(R.id.titleView) TextView titleView;
+        @BindView(R.id.threadComment) TextView threadComment;
         ViewHolder(View view){
             ButterKnife.bind(this, view);
         }

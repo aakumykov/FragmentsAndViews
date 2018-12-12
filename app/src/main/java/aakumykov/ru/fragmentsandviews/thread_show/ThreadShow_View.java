@@ -39,7 +39,8 @@ public class ThreadShow_View extends BaseView implements ThreadShow_Fragment.iIn
 
     @Override
     public void setPageTitleFromFragment(String threadName) {
-        String title = getResources().getString(R.string.THREAD_SHOW_page_title_extended, threadName);
-        setPageTitle(title);
+//        String title = getResources().getString(R.string.THREAD_SHOW_page_title_extended, threadName);
+//        setPageTitle(title);
+        setPageTitle(threadName);
     }
 }
