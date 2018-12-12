@@ -13,6 +13,7 @@ import java.util.List;
 
 import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.models.Thread.Post;
+import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,7 +45,9 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
 
         Post post = list.get(position);
 
-        viewHolder.threadComment.setText(post.getComment());
+        String comment = DvachUtils.clearThreadComment(post.getComment());
+
+        viewHolder.threadComment.setText(comment);
 
         return convertView;
     }
