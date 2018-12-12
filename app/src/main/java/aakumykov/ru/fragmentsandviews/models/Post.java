@@ -1,12 +1,12 @@
 package aakumykov.ru.fragmentsandviews.models;
 
-public class Element {
+public class Post {
 
     private String name;
 
-    public Element() {}
+    public Post() {}
 
-    public Element(String name) {
+    public Post(String name) {
         this.name = name;
     }
 

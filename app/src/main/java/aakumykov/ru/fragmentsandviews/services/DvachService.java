@@ -16,6 +16,7 @@ import java.util.Map;
 
 import aakumykov.ru.fragmentsandviews.models.Board.Board;
 import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
+import aakumykov.ru.fragmentsandviews.models.Thread.OneThread;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,6 +111,22 @@ public class DvachService implements iDvachService {
             @Override
             public void onFailure(@NonNull Call<Board> call, @NonNull Throwable t) {
                 callbacks.onBoardReadFail(t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void getThread(String boardName, String threadNum, final ThreadReadCallbacks callbacks) {
+        dvachAPI.getThread(boardName, threadNum).enqueue(new Callback<OneThread>() {
+            @Override
+            public void onResponse(Call<OneThread> call, Response<OneThread> response) {
+                callbacks.onThreadReadSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<OneThread> call, Throwable t) {
+                callbacks.onThreadReadFail(t.getMessage());
                 t.printStackTrace();
             }
         });

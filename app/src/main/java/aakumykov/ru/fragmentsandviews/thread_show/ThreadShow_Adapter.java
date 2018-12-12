@@ -1,4 +1,5 @@
-package aakumykov.ru.fragmentsandviews.TEMPLATE;
+package aakumykov.ru.fragmentsandviews.thread_show;
+
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,17 +12,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.models.Element;
+import aakumykov.ru.fragmentsandviews.models.Thread.Post;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class List_Adapter extends ArrayAdapter<Element> {
+public class ThreadShow_Adapter extends ArrayAdapter<Post> {
 
     private LayoutInflater inflater;
     private int layout;
-    private List<Element> list;
+    private List<Post> list;
 
-    List_Adapter(Context context, int resource, List<Element> list) {
+    ThreadShow_Adapter(Context context, int resource, List<Post> list) {
         super(context, resource, list);
         this.list = list;
         this.layout = resource;
@@ -41,9 +42,9 @@ public class List_Adapter extends ArrayAdapter<Element> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Element element = list.get(position);
+        Post post = list.get(position);
 
-        viewHolder.titleView.setText(element.getName());
+        viewHolder.titleView.setText(post.getName());
 
         return convertView;
     }

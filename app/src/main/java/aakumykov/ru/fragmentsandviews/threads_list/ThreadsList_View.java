@@ -1,10 +1,13 @@
 package aakumykov.ru.fragmentsandviews.threads_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_Fragment;
+import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_View;
 
 public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.iInteractionListener {
 
@@ -25,14 +28,17 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
             threadsListFragment.processInputIntent(getIntent());
     }
 
+    // TODO: архитектурный косяк: класс не знает свой boardName
     @Override
-    public void onListItemClicked(int position) {
-        setPageTitle("Нажата строка "+position);
+    public void onListItemClicked(String boardName, String threadNum) {
+        Intent intent = new Intent(this, ThreadShow_View.class);
+        intent.putExtra(ThreadShow_View.THREAD_NUM, threadNum);
+        startActivity(intent);
     }
 
     @Override
-    public void onListItemLongClicked(int position) {
-        setPageTitle("Выбрана строка "+position);
+    public void onListItemLongClicked(String boardName, String threadNum) {
+        setPageTitle("Выбран тред "+boardName+"/"+threadNum);
     }
 
     @Override

@@ -27,8 +27,8 @@ import butterknife.OnItemLongClick;
 public class ThreadsList_Fragment extends BaseFragment {
 
     public interface iInteractionListener {
-        void onListItemClicked(int position);
-        void onListItemLongClicked(int position);
+        void onListItemClicked(String boardName, String threadNum);
+        void onListItemLongClicked(String boardName, String threadNum);
         void setPageTitleFromFragment(String title);
     }
 
@@ -39,6 +39,8 @@ public class ThreadsList_Fragment extends BaseFragment {
     private List<Thread> list;
     private iInteractionListener interactionListener;
     private boolean firstRun = true;
+    private String boardName;
+
 
     @Nullable
     @Override
@@ -59,7 +61,7 @@ public class ThreadsList_Fragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         if (firstRun) {
-//            loadThreadsList();
+            loadThreadsList(boardName);
             firstRun = false;
         }
     }
@@ -84,12 +86,14 @@ public class ThreadsList_Fragment extends BaseFragment {
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
-        interactionListener.onListItemClicked(position);
+        Thread thread = list.get(position);
+        interactionListener.onListItemClicked(boardName, thread.getNum());
     }
 
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
-        interactionListener.onListItemLongClicked(position);
+        Thread thread = list.get(position);
+        interactionListener.onListItemLongClicked(boardName, thread.getNum());
         return true;
     }
 
@@ -99,6 +103,7 @@ public class ThreadsList_Fragment extends BaseFragment {
         if (null != intent) {
             String boardName = intent.getStringExtra(ThreadsList_View.BOARD_ID);
             if (null != boardName) {
+                this.boardName = boardName;
                 loadThreadsList(boardName);
             }
         }
