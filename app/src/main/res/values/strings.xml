@@ -5,10 +5,11 @@
     <string name="LIST_VIEW_page_title">Список</string>
     <string name="MAIN_VIEW_page_title">Главная страница</string>
     <string name="fullTitle">%s - ФрагментыСтраницы</string>
-    <string name="BOARDS_LIST_page_title">Список досок</string>
+    <string name="BOARDS_LIST_page_title">Список досок - Двач</string>
     <string name="BOARDS_LIST_loading_boards_list">Получаем список досок</string>
     <string name="BOARDS_LIST_error_loading_boards_list">Ошибка загрузки списка досок</string>
     <string name="THREADS_LIST_page_title">Список тредов</string>
     <string name="THREADS_LIST_loading_threads_list">Получаем список тредов</string>
     <string name="THREADS_LIST_error_loading_threads_list">Ошибка загрузки списка тредов</string>
+    <string name="THREADS_LIST_page_title_extended">Треды в «%s»</string>
 </resources>

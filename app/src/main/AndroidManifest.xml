@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".TEMPLATE.Page_View"/>
-
         <activity android:name=".TEMPLATE.List_View"/>
 
         <activity android:name=".boards_list.BoardsList_View">
@@ -23,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".threads_list.ThreadsList_View" />
+
+        <activity android:name=".threads_list.ThreadsList_View"
+            android:parentActivityName=".boards_list.BoardsList_View"/>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ public class ThreadsList_Fragment extends BaseFragment {
     public interface iInteractionListener {
         void onListItemClicked(int position);
         void onListItemLongClicked(int position);
+        void setPageTitleFromFragment(String title);
     }
 
     @BindView(R.id.listView) ListView listView;
@@ -111,6 +112,7 @@ public class ThreadsList_Fragment extends BaseFragment {
             public void onBardReadSuccess(Board board) {
                 hideProgressMessage();
                 displayThreadsList(board);
+                interactionListener.setPageTitleFromFragment(board.getBoardName());
             }
 
             @Override

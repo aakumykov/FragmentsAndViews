@@ -6,10 +6,11 @@
     <string name="LIST_VIEW_page_title">List</string>
     <string name="MAIN_VIEW_page_title">Main page</string>
     <string name="fullTitle">%s - FragmentsAndViews</string>
-    <string name="BOARDS_LIST_page_title">Boards list</string>
+    <string name="BOARDS_LIST_page_title">Boards list - Dvach</string>
     <string name="BOARDS_LIST_loading_boards_list">Loading boards list</string>
     <string name="BOARDS_LIST_error_loading_boards_list">Error loading boards list</string>
     <string name="THREADS_LIST_page_title">Threads list</string>
     <string name="THREADS_LIST_loading_threads_list">Loading threads list</string>
     <string name="THREADS_LIST_error_loading_threads_list">Error loading threads list</string>
+    <string name="THREADS_LIST_page_title_extended">Threads in «%s»</string>
 </resources>

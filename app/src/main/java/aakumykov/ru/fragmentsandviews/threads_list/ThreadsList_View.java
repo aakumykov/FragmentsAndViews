@@ -15,6 +15,7 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
         super.onCreate(savedInstanceState);
         setContentView(R.layout.threads_list_view);
         setPageTitle(R.string.THREADS_LIST_page_title);
+        activateUpButton();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         ThreadsList_Fragment threadsListFragment =
@@ -34,4 +35,9 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
         setPageTitle("Выбрана строка "+position);
     }
 
+    @Override
+    public void setPageTitleFromFragment(String boardName) {
+        String title = getResources().getString(R.string.THREADS_LIST_page_title_extended, boardName);
+        setPageTitle(title);
+    }
 }
