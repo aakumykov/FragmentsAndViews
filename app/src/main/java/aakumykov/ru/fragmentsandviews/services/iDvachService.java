@@ -29,6 +29,7 @@ public interface iDvachService {
 
     interface ThreadReadCallbacks {
         void onThreadReadSuccess(OneThread oneThread);
+        void onThreadMissing();
         void onThreadReadFail(String errorMsg);
     }
 }

@@ -16,4 +16,5 @@
     <string name="THREAD_SHOW_page_title_extended">Обсуждение «%s»</string>
     <string name="THREAD_SHOW_loading_thread">Загружаю тред</string>
     <string name="THREAD_SHOW_error_loading_thread">Ошибка загрузки треда</string>
+    <string name="THREAD_SHOW_thread_missing">Тред не существует</string>
 </resources>

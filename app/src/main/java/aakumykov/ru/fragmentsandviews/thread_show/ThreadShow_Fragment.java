@@ -108,6 +108,11 @@ public class ThreadShow_Fragment extends BaseFragment {
             }
 
             @Override
+            public void onThreadMissing() {
+                showErrorMsg(R.string.THREAD_SHOW_thread_missing);
+            }
+
+            @Override
             public void onThreadReadFail(String errorMsg) {
                 showErrorMsg(R.string.THREAD_SHOW_error_loading_thread, errorMsg);
             }

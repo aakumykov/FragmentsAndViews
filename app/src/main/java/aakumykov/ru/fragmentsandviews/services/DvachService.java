@@ -120,11 +120,18 @@ public class DvachService implements iDvachService {
     public void getThread(String boardName, String threadNum, final ThreadReadCallbacks callbacks) {
         dvachAPI.getThread(boardName, threadNum).enqueue(new Callback<OneThread>() {
 
-            // TODO: обрабатывать Response{protocol=http/1.1, code=404, message=Not Found, url=https://2ch.hk/gg/res/709666.json}
+            // TODO: обрабатывать это:
+            /*
+            Response{protocol=http/1.1, code=404, message=Not Found, url=https://2ch.hk/gg/res/709666.json}
+            */
             @Override
             public void onResponse(Call<OneThread> call, Response<OneThread> response) {
-                OneThread oneThread = response.body();
-                callbacks.onThreadReadSuccess(oneThread);
+                if (404 == response.code()) {
+                    callbacks.onThreadMissing();
+                } else {
+                    OneThread oneThread = response.body();
+                    callbacks.onThreadReadSuccess(oneThread);
+                }
             }
 
             @Override
