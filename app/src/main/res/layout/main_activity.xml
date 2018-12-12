@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainView">
+    tools:context=".TEMPLATE.Page_View">
 
     <fragment
         android:id="@+id/fragment"
-        android:name="aakumykov.ru.fragmentsandviews.MainFragment"
+        android:name="aakumykov.ru.fragmentsandviews.TEMPLATE.Page_Fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/main_fragment" />

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListView">
+    tools:context=".TEMPLATE.List_View">
 
     <fragment
         android:id="@+id/fragment"
-        android:name="aakumykov.ru.fragmentsandviews.ListFragment"
+        android:name="aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

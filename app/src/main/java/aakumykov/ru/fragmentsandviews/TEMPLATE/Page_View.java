@@ -1,9 +1,12 @@
-package aakumykov.ru.fragmentsandviews;
+package aakumykov.ru.fragmentsandviews.TEMPLATE;
 
 import android.os.Bundle;
 
-public class MainView extends BaseView implements
-        MainFragment.iInteractionListener
+import aakumykov.ru.fragmentsandviews.BaseView;
+import aakumykov.ru.fragmentsandviews.R;
+
+public class Page_View extends BaseView implements
+        Page_Fragment.iInteractionListener
 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainView"/>
+        <activity android:name=".TEMPLATE.Page_View"/>
 
-        <activity android:name=".ListView"/>
+        <activity android:name=".TEMPLATE.List_View"/>
 
         <activity android:name=".boards_list.BoardsList_View">
             <intent-filter>

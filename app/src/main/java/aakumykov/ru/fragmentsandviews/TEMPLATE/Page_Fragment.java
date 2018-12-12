@@ -1,4 +1,4 @@
-package aakumykov.ru.fragmentsandviews;
+package aakumykov.ru.fragmentsandviews.TEMPLATE;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import aakumykov.ru.fragmentsandviews.BaseFragment;
+import aakumykov.ru.fragmentsandviews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainFragment extends BaseFragment {
+public class Page_Fragment extends BaseFragment {
 
     public interface iInteractionListener {
         void onButtonClicked(String message);

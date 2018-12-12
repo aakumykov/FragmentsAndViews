@@ -1,4 +1,4 @@
-package aakumykov.ru.fragmentsandviews;
+package aakumykov.ru.fragmentsandviews.TEMPLATE;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,17 +10,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.models.Element;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListAdapter extends ArrayAdapter<Element> {
+public class List_Adapter extends ArrayAdapter<Element> {
 
     private LayoutInflater inflater;
     private int layout;
     private List<Element> list;
 
-    ListAdapter(Context context, int resource, List<Element> list) {
+    List_Adapter(Context context, int resource, List<Element> list) {
         super(context, resource, list);
         this.list = list;
         this.layout = resource;
