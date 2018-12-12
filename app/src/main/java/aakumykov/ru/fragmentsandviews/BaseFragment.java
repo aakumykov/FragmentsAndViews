@@ -29,6 +29,14 @@ public class BaseFragment extends Fragment implements iBaseFragment {
     }
 
     @Override
+    public void showErrorMsg(int messageId, String messageForConsole) {
+        showMessage(messageId);
+        hideProgressBar();
+        // TODO: реализовать getTag()...
+        //Log.e(getTag(), messageForConsole);
+    }
+
+    @Override
     public void showToast(int messageId) {
         View view = getView();
         if (null != view) {

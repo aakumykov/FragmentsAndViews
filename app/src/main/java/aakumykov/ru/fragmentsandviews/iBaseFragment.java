@@ -9,4 +9,5 @@ public interface iBaseFragment {
     void showToast(int messageId);
 
     void showErrorMsg(int messageId);
+    void showErrorMsg(int messageId, String messageForConsole);
 }
