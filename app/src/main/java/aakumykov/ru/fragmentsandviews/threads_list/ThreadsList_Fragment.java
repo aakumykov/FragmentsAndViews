@@ -1,5 +1,4 @@
-package aakumykov.ru.fragmentsandviews.boards_list;
-
+package aakumykov.ru.fragmentsandviews.threads_list;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,11 +11,11 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
+import aakumykov.ru.fragmentsandviews.models.Board.Board;
+import aakumykov.ru.fragmentsandviews.models.Board.Thread;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
 import butterknife.BindView;
@@ -24,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 
-public class BoardsList_Fragment extends BaseFragment {
+public class ThreadsList_Fragment extends BaseFragment {
 
     public interface iInteractionListener {
         void onListItemClicked(int position);
@@ -34,13 +33,12 @@ public class BoardsList_Fragment extends BaseFragment {
     @BindView(R.id.listView) ListView listView;
 
     private iDvachService dvachService;
-    private BoardsList_Adapter listAdapter;
-    private List<BoardsTOCItem> list;
+    private ThreadsList_Adapter listAdapter;
+    private List<Thread> list;
     private iInteractionListener interactionListener;
     private boolean firstRun = true;
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
@@ -48,10 +46,19 @@ public class BoardsList_Fragment extends BaseFragment {
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
-        listAdapter = new BoardsList_Adapter(getContext(), R.layout.boards_list_item, list);
+        listAdapter = new ThreadsList_Adapter(getContext(), R.layout.threads_list_item, list);
         listView.setAdapter(listAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (firstRun) {
+//            loadThreadsList();
+            firstRun = false;
+        }
     }
 
     @Override
@@ -71,14 +78,6 @@ public class BoardsList_Fragment extends BaseFragment {
         interactionListener = null;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (firstRun) {
-            loadBoardsList();
-            firstRun = false;
-        }
-    }
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
@@ -92,29 +91,30 @@ public class BoardsList_Fragment extends BaseFragment {
     }
 
 
-    private void loadBoardsList() {
-        showProgressMessage(R.string.BOARDS_LIST_loading_boards_list);
+    private void loadThreadsList(String boardName) {
+        showProgressMessage(R.string.THREADS_LIST_loading_threads_list);
 
-        dvachService.getBoardsList(new iDvachService.TOCReadCallbacks() {
+        dvachService.getBoard(boardName, new iDvachService.BoardReadCallbacks() {
             @Override
-            public void onTOCReadSuccess(Map<String, List<BoardsTOCItem>> tocMap) {
+            public void onBardReadSuccess(Board board) {
                 hideProgressMessage();
-                displayBoardsList(tocMap);
+                displayThreadsList(board);
             }
 
             @Override
-            public void onTOCReadFail(String errorMsg) {
-                showErrorMsg(R.string.BOARDS_LIST_error_loading_boards_list, errorMsg);
+            public void onBoardReadFail(String errorMsg) {
+                showErrorMsg(R.string.THREADS_LIST_error_loading_threads_list, errorMsg);
             }
         });
     }
 
-    private void displayBoardsList(Map<String, List<BoardsTOCItem>> tocMap) {
-        for (Map.Entry entry : tocMap.entrySet()) {
-            String group = entry.getKey().toString();
-            List<BoardsTOCItem> boardsInGroup = (List<BoardsTOCItem>) entry.getValue();
-            list.addAll(boardsInGroup);
+    private void displayThreadsList(Board board) {
+        List<Thread> threadsList = board.getThreads();
+        for (int i=0; i<threadsList.size(); i++) {
+            Thread thread = threadsList.get(i);
+            list.add(thread);
             listAdapter.notifyDataSetChanged();
         }
     }
+
 }
