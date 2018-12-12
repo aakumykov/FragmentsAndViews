@@ -6,4 +6,7 @@
     <string name="LIST_VIEW_page_title">List</string>
     <string name="MAIN_VIEW_page_title">Main page</string>
     <string name="fullTitle">%s - FragmentsAndViews</string>
+    <string name="BOARDS_LIST_page_title">Boards list</string>
+    <string name="BOARDS_LIST_loading_boards_list">Loading boards list</string>
+    <string name="BOARDS_LIST_error_loading_boards_list">Error loading boards list</string>
 </resources>

@@ -1,5 +1,6 @@
 package aakumykov.ru.fragmentsandviews.services;
 
+
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -13,15 +14,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import aakumykov.ru.fragmentsandviews.models.Board.Board;
+import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.aakumykov.me.gsontest.interfaces.DvachAPI;
-import ru.aakumykov.me.gsontest.models.Board.Board;
-import ru.aakumykov.me.gsontest.models.BoardsList.BoardsTOCItem;
-
 
 public class DvachService implements iDvachService {
 

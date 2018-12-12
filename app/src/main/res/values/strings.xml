@@ -5,4 +5,7 @@
     <string name="LIST_VIEW_page_title">Список</string>
     <string name="MAIN_VIEW_page_title">Главная страница</string>
     <string name="fullTitle">%s - ФрагментыСтраницы</string>
+    <string name="BOARDS_LIST_page_title">Список досок</string>
+    <string name="BOARDS_LIST_loading_boards_list">Получаем список досок</string>
+    <string name="BOARDS_LIST_error_loading_boards_list">Ошибка загрузки списка досок</string>
 </resources>
