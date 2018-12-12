@@ -1,9 +1,8 @@
 package aakumykov.ru.fragmentsandviews;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class List_View extends BaseView implements ListFragment.iInteractionListener {
+public class ListView extends BaseView implements ListFragment.iInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
