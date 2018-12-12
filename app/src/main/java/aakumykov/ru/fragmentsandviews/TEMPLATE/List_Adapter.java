@@ -11,17 +11,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.models.Post;
+import aakumykov.ru.fragmentsandviews.models.Element;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ThreadShow_Adapter extends ArrayAdapter<Post> {
+public class List_Adapter extends ArrayAdapter<Element> {
 
     private LayoutInflater inflater;
     private int layout;
-    private List<Post> list;
+    private List<Element> list;
 
-    ThreadShow_Adapter(Context context, int resource, List<Post> list) {
+    List_Adapter(Context context, int resource, List<Element> list) {
         super(context, resource, list);
         this.list = list;
         this.layout = resource;
@@ -41,9 +41,9 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Post post = list.get(position);
+        Element element = list.get(position);
 
-        viewHolder.titleView.setText(post.getName());
+        viewHolder.titleView.setText(element.getName());
 
         return convertView;
     }

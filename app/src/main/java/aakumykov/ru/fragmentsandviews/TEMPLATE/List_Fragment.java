@@ -14,7 +14,7 @@ import java.util.List;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.models.Post;
+import aakumykov.ru.fragmentsandviews.models.Element;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
@@ -28,22 +28,23 @@ public class List_Fragment extends BaseFragment {
     }
 
     @BindView(R.id.listView) ListView listView;
-    private ThreadShow_Adapter listAdapter;
-    private List<Post> elementsList;
+    private List_Adapter listAdapter;
+    private List<Element> elementsList;
     private iInteractionListener interactionListener;
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
 
         elementsList = new ArrayList<>();
-            elementsList.add(new Post("Земля"));
-            elementsList.add(new Post("Вода"));
-            elementsList.add(new Post("Огонь"));
-            elementsList.add(new Post("Воздух"));
-        listAdapter = new ThreadShow_Adapter(getContext(), R.layout.list_item, elementsList);
+            elementsList.add(new Element("Земля"));
+            elementsList.add(new Element("Вода"));
+            elementsList.add(new Element("Огонь"));
+            elementsList.add(new Element("Воздух"));
+        listAdapter = new List_Adapter(getContext(), R.layout.list_item, elementsList);
         listView.setAdapter(listAdapter);
 
         return view;
