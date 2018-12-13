@@ -3,7 +3,6 @@ package aakumykov.ru.fragmentsandviews.threads_list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
@@ -21,15 +20,11 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
         activateUpButton();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
+        ThreadsList_Fragment threadsListFragment =
+                (ThreadsList_Fragment) fragmentManager.findFragmentById(R.id.threads_list_fragment);
 
-        ThreadsList_Fragment threadsListFragment = new ThreadsList_Fragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("intent", getIntent());
-        threadsListFragment.setArguments(bundle);
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.threads_list_fragment, threadsListFragment);
-        fragmentTransaction.commit();
+        if (null != threadsListFragment)
+            threadsListFragment.processInputIntent(getIntent());
     }
 
     // TODO: архитектурный косяк: класс не знает свой boardName

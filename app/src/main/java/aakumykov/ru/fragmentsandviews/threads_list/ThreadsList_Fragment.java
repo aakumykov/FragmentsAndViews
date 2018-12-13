@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,6 @@ public class ThreadsList_Fragment extends BaseFragment {
 
     @BindView(R.id.listView) ListView listView;
 
-    private static final String TAG = "ThreadsList_Fragment";
     private iDvachService dvachService;
     private ThreadsList_Adapter listAdapter;
     private List<Thread> list;
@@ -43,33 +41,20 @@ public class ThreadsList_Fragment extends BaseFragment {
     private boolean firstRun = true;
     private String boardName;
 
-    @Nullable @Override
+
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.threads_list_fragment, container, false);
         ButterKnife.bind(this, view);
-
-//        setRetainInstance(true);
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
         listAdapter = new ThreadsList_Adapter(getContext(), R.layout.threads_list_item, list);
         listView.setAdapter(listAdapter);
 
-        Bundle arguments = getArguments();
-        if (null != arguments) {
-            Intent intent = (Intent) arguments.getParcelable("intnet");
-            processInputIntent(intent);
-        }
-
-        Log.i(TAG, "onCreateView()");
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.i(TAG, "onDestroyView()");
     }
 
     @Override
@@ -79,13 +64,6 @@ public class ThreadsList_Fragment extends BaseFragment {
             loadThreadsList(boardName);
             firstRun = false;
         }
-        Log.i(TAG, "onStart()");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i(TAG, "onStop()");
     }
 
     @Override

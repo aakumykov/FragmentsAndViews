@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/threads_list_fragment"
+    <include
+        layout="@layout/progress_message"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
 
-    </FrameLayout>
+    <fragment
+        android:id="@+id/threads_list_fragment"
+        android:name="aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_Fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/threads_list_fragment" />
 </LinearLayout>
