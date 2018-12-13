@@ -45,7 +45,7 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
 
         Post post = list.get(position);
 
-        String comment = DvachUtils.clearThreadComment(post.getComment());
+        String comment = DvachUtils.processComment(post.getComment());
 
         viewHolder.threadComment.setText(comment);
 
