@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
+import aakumykov.ru.fragmentsandviews.Constants;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
 import aakumykov.ru.fragmentsandviews.models.Board.Board;
 import aakumykov.ru.fragmentsandviews.models.Board.Thread;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
@@ -34,13 +36,15 @@ public class ThreadsList_Fragment extends BaseFragment {
 
     @BindView(R.id.listView) ListView listView;
 
+    public static final String TAG = "ThreadsList_Fragment";
     private iDvachService dvachService;
     private ThreadsList_Adapter listAdapter;
     private List<Thread> list;
     private iInteractionListener interactionListener;
     private boolean firstRun = true;
-    private String boardName;
+    private String boardId;
 
+    private iDvachPagesInteraction dvachPagesInteraction;
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +57,12 @@ public class ThreadsList_Fragment extends BaseFragment {
         listAdapter = new ThreadsList_Adapter(getContext(), R.layout.threads_list_item, list);
         listView.setAdapter(listAdapter);
 
+        Bundle arguments = getArguments();
+        if (null != arguments)
+            boardId = arguments.getString(Constants.BOARD_ID);
+
+        getPage().setPageTitle(R.string.THREADS_LIST_page_title);
+
         return view;
     }
 
@@ -60,7 +70,7 @@ public class ThreadsList_Fragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         if (firstRun) {
-            loadThreadsList(boardName);
+            loadThreadsList(boardId);
             firstRun = false;
         }
     }
@@ -68,11 +78,11 @@ public class ThreadsList_Fragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof iInteractionListener) {
-            interactionListener = (iInteractionListener) context;
+        if (context instanceof iDvachPagesInteraction) {
+            dvachPagesInteraction = (iDvachPagesInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement iInteractionListener");
+                    + " must implement iDvachPagesInteraction");
         }
     }
 
@@ -86,13 +96,13 @@ public class ThreadsList_Fragment extends BaseFragment {
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         Thread thread = list.get(position);
-        interactionListener.onListItemClicked(boardName, thread.getNum());
+        interactionListener.onListItemClicked(boardId, thread.getNum());
     }
 
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
         Thread thread = list.get(position);
-        interactionListener.onListItemLongClicked(boardName, thread.getNum());
+        interactionListener.onListItemLongClicked(boardId, thread.getNum());
         return true;
     }
 
@@ -102,7 +112,7 @@ public class ThreadsList_Fragment extends BaseFragment {
         if (null != intent) {
             String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
             if (null != boardName) {
-                this.boardName = boardName;
+                this.boardId = boardName;
                 loadThreadsList(boardName);
             }
         }
@@ -116,7 +126,7 @@ public class ThreadsList_Fragment extends BaseFragment {
             public void onBardReadSuccess(Board board) {
                 hideProgressMessage();
                 displayThreadsList(board);
-                interactionListener.setPageTitleFromFragment(board.getBoardName());
+                getPage().setPageTitle(board.getBoardName());
             }
 
             @Override

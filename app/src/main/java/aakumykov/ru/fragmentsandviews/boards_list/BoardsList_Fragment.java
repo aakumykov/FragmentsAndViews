@@ -59,6 +59,8 @@ public class BoardsList_Fragment extends BaseFragment implements
         listAdapter = new BoardsList_Adapter(getContext(), R.layout.boards_list_item, list);
         listView.setAdapter(listAdapter);
 
+        getPage().setPageTitle(R.string.BOARDS_LIST_page_title);
+
         return view;
     }
 

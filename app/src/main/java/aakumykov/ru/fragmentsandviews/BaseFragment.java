@@ -71,6 +71,11 @@ public class BaseFragment extends Fragment implements iBaseFragment {
         }
     }
 
+    @Override
+    public iPage getPage() {
+        return page;
+    }
+
 
     private void showProgressBar() {
         View view = getView();

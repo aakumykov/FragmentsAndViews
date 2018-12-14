@@ -1,28 +1,24 @@
 package aakumykov.ru.fragmentsandviews;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment;
 import aakumykov.ru.fragmentsandviews.boards_list.BoardsList_Fragment;
 import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
-import aakumykov.ru.fragmentsandviews.interfaces.iInformer;
 import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_Fragment;
 
 public class FragmentsPage extends BaseView implements
         iDvachPagesInteraction
 {
     private boolean firstRun = true;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
+    @SuppressLint("CommitTransaction")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_page_activity);
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
     }
 
     @Override
@@ -37,8 +33,10 @@ public class FragmentsPage extends BaseView implements
     @Override
     public void showBoardsOnDvach() {
         BoardsList_Fragment boardsListFragment = new BoardsList_Fragment();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_place, boardsListFragment);
-        fragmentTransaction.addToBackStack(BoardsList_Fragment.TAG);
+//        fragmentTransaction.addToBackStack(BoardsList_Fragment.TAG);
         fragmentTransaction.commit();
     }
 
@@ -46,7 +44,14 @@ public class FragmentsPage extends BaseView implements
     public void showThreadsInBoard(String boardId) {
         Bundle arguments = new Bundle();
         arguments.putString(Constants.BOARD_ID, boardId);
-        setPageTitle(boardId);
+
+        ThreadsList_Fragment threadsListFragment = new ThreadsList_Fragment();
+        threadsListFragment.setArguments(arguments);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(BoardsList_Fragment.TAG);
+        fragmentTransaction.add(R.id.fragment_place, threadsListFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
