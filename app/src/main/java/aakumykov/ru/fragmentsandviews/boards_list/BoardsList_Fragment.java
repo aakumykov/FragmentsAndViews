@@ -16,6 +16,7 @@ import java.util.Map;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
 import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
@@ -29,14 +30,16 @@ public class BoardsList_Fragment extends BaseFragment implements
 {
 
 //    @BindView(R.id.swipeRefresh) SwipeRefreshLayout swipeRefreshLayout;
+//    private SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.listView) ListView listView;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String TAG = "BoardsList_Fragment";
     private iDvachService dvachService;
     private BoardsList_Adapter listAdapter;
     private List<BoardsTOCItem> list;
     private boolean firstRun = true;
+
+//    private iDvachPagesInteraction dvachPagesInteraction;
 
 
     @Nullable @Override
@@ -45,11 +48,11 @@ public class BoardsList_Fragment extends BaseFragment implements
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
-        if (null != swipeRefreshLayout) {
-            swipeRefreshLayout.setOnRefreshListener(this);
-            swipeRefreshLayout.setColorSchemeResources(R.color.blue_swipe, R.color.green_swipe, R.color.orange_swipe, R.color.red_swipe);
-        }
+//        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+//        if (null != swipeRefreshLayout) {
+//            swipeRefreshLayout.setOnRefreshListener(this);
+//            swipeRefreshLayout.setColorSchemeResources(R.color.blue_swipe, R.color.green_swipe, R.color.orange_swipe, R.color.red_swipe);
+//        }
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
@@ -62,17 +65,18 @@ public class BoardsList_Fragment extends BaseFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof iInteractionListener) {
-//            interactionListener = (iInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement iInteractionListener");
-//        }
+        if (context instanceof iDvachPagesInteraction) {
+//            dvachPagesInteraction = (iDvachPagesInteraction) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement iDvachPagesInteraction");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+//        dvachPagesInteraction = null;
     }
 
     @Override
@@ -105,12 +109,12 @@ public class BoardsList_Fragment extends BaseFragment implements
 
     private void loadBoardsList() {
         showProgressMessage(R.string.BOARDS_LIST_refreshing_boards_list);
-        showLoadingIndicator();
+//        showLoadingIndicator();
         dvachService.getBoardsList(new iDvachService.TOCReadCallbacks() {
             @Override
             public void onTOCReadSuccess(Map<String, List<BoardsTOCItem>> tocMap) {
                 hideProgressMessage();
-                hideLoadingIndicator();
+//                hideLoadingIndicator();
                 displayBoardsList(tocMap);
             }
 
@@ -131,12 +135,12 @@ public class BoardsList_Fragment extends BaseFragment implements
         }
     }
 
-    private void showLoadingIndicator() {
-        if (null != swipeRefreshLayout)
-            swipeRefreshLayout.setRefreshing(true);
-    }
-    private void hideLoadingIndicator() {
-        if (null != swipeRefreshLayout)
-            swipeRefreshLayout.setRefreshing(false);
-    }
+//    private void showLoadingIndicator() {
+//        if (null != swipeRefreshLayout)
+//            swipeRefreshLayout.setRefreshing(true);
+//    }
+//    private void hideLoadingIndicator() {
+//        if (null != swipeRefreshLayout)
+//            swipeRefreshLayout.setRefreshing(false);
+//    }
 }
