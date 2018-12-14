@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentManager;
 
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment;
-import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_Fragment;
 
 public class ThreadShow_View extends BaseView implements ThreadShow_Fragment.iInteractionListener {
 
