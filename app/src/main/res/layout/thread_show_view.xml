@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TEMPLATE.Page_View">
+    android:orientation="vertical">
 
     <fragment
-        android:id="@+id/fragment"
-        android:name="aakumykov.ru.fragmentsandviews.TEMPLATE.Page_Fragment"
+        android:id="@+id/thread_show_fragment"
+        android:name="aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_Fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/main_fragment" />
-</FrameLayout>
+        tools:layout="@layout/thread_show_fragment" />
+</LinearLayout>

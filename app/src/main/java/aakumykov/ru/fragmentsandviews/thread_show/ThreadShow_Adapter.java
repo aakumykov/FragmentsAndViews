@@ -1,7 +1,11 @@
-package aakumykov.ru.fragmentsandviews;
+package aakumykov.ru.fragmentsandviews.thread_show;
+
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +14,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import aakumykov.ru.fragmentsandviews.models.Element;
+import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.models.Thread.Post;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListAdapter extends ArrayAdapter<Element> {
+public class ThreadShow_Adapter extends ArrayAdapter<Post> {
 
     private LayoutInflater inflater;
     private int layout;
-    private List<Element> Elements;
+    private List<Post> list;
 
-    ListAdapter(Context context, int resource, List<Element> elements) {
-        super(context, resource, elements);
-        this.Elements = elements;
+    ThreadShow_Adapter(Context context, int resource, List<Post> list) {
+        super(context, resource, list);
+        this.list = list;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
@@ -40,15 +45,25 @@ public class ListAdapter extends ArrayAdapter<Element> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Element element = Elements.get(position);
+        Post post = list.get(position);
+        String rawComment = post.getComment();
 
-        viewHolder.titleView.setText(element.getName());
+//        String cleanComment = DvachUtils.processComment(rawComment);
+//        viewHolder.commentView.setText(cleanComment);
+
+        Spanned spannedComment;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            spannedComment = Html.fromHtml(rawComment, Html.FROM_HTML_MODE_COMPACT);
+        } else {
+            spannedComment = Html.fromHtml(rawComment);
+        }
+        viewHolder.commentView.setText(spannedComment);
 
         return convertView;
     }
 
     static class ViewHolder {
-        @BindView(R.id.titleView) TextView titleView;
+        @BindView(R.id.threadComment) TextView commentView;
         ViewHolder(View view){
             ButterKnife.bind(this, view);
         }

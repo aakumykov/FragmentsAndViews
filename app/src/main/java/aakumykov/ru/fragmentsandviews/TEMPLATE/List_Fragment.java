@@ -1,4 +1,4 @@
-package aakumykov.ru.fragmentsandviews;
+package aakumykov.ru.fragmentsandviews.TEMPLATE;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,13 +12,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import aakumykov.ru.fragmentsandviews.BaseFragment;
+import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.models.Element;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 
-public class ListFragment extends BaseFragment {
+public class List_Fragment extends BaseFragment {
 
     public interface iInteractionListener {
         void onListItemClicked(int position);
@@ -26,11 +28,12 @@ public class ListFragment extends BaseFragment {
     }
 
     @BindView(R.id.listView) ListView listView;
-    private ListAdapter listAdapter;
+    private List_Adapter listAdapter;
     private List<Element> elementsList;
     private iInteractionListener interactionListener;
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
@@ -41,7 +44,7 @@ public class ListFragment extends BaseFragment {
             elementsList.add(new Element("Вода"));
             elementsList.add(new Element("Огонь"));
             elementsList.add(new Element("Воздух"));
-        listAdapter = new ListAdapter(getContext(), R.layout.list_item, elementsList);
+        listAdapter = new List_Adapter(getContext(), R.layout.list_item, elementsList);
         listView.setAdapter(listAdapter);
 
         return view;

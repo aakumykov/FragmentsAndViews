@@ -16,8 +16,14 @@ public class BaseView extends AppCompatActivity implements iBaseView {
     @Override
     public void setPageTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
-        String fullTitle = getResources().getString(R.string.fullTitle, title);
         if (null != actionBar)
-            actionBar.setTitle(fullTitle);
+            actionBar.setTitle(title);
+    }
+
+    @Override
+    public void activateUpButton() {
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar)
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 }
