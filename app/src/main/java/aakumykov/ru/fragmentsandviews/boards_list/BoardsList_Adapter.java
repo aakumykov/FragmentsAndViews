@@ -14,6 +14,8 @@ import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 public class BoardsList_Adapter extends ArrayAdapter<BoardsTOCItem> {
 
@@ -32,6 +34,7 @@ public class BoardsList_Adapter extends ArrayAdapter<BoardsTOCItem> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         ViewHolder viewHolder;
+
         if(convertView==null){
             convertView = inflater.inflate(this.layout, parent, false);
             viewHolder = new ViewHolder(convertView);
@@ -42,7 +45,6 @@ public class BoardsList_Adapter extends ArrayAdapter<BoardsTOCItem> {
         }
 
         BoardsTOCItem item = list.get(position);
-
         viewHolder.titleView.setText(item.getName());
 
         return convertView;

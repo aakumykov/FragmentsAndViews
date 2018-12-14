@@ -39,7 +39,7 @@ public class BoardsList_Fragment extends BaseFragment implements
     private List<BoardsTOCItem> list;
     private boolean firstRun = true;
 
-//    private iDvachPagesInteraction dvachPagesInteraction;
+    private iDvachPagesInteraction dvachPagesInteraction;
 
 
     @Nullable @Override
@@ -66,7 +66,7 @@ public class BoardsList_Fragment extends BaseFragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof iDvachPagesInteraction) {
-//            dvachPagesInteraction = (iDvachPagesInteraction) context;
+            dvachPagesInteraction = (iDvachPagesInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement iDvachPagesInteraction");
@@ -76,7 +76,7 @@ public class BoardsList_Fragment extends BaseFragment implements
     @Override
     public void onDetach() {
         super.onDetach();
-//        dvachPagesInteraction = null;
+        dvachPagesInteraction = null;
     }
 
     @Override
@@ -97,6 +97,7 @@ public class BoardsList_Fragment extends BaseFragment implements
     void onItemClicked(int position) {
         BoardsTOCItem item = list.get(position);
         String boardId = item.getId();
+        dvachPagesInteraction.showThreadsInBoard(boardId);
     }
 
     @OnItemLongClick(R.id.listView)

@@ -46,6 +46,7 @@ public class FragmentsPage extends BaseView implements
     public void showThreadsInBoard(String boardId) {
         Bundle arguments = new Bundle();
         arguments.putString(Constants.BOARD_ID, boardId);
+        setPageTitle(boardId);
     }
 
     @Override
