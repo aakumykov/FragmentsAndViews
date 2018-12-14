@@ -13,8 +13,7 @@ import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 
 @SuppressLint("Registered")
 public class BaseView extends AppCompatActivity implements
-        iPage,
-        iInformer
+        iPage
 {
 
     // реализация интерфейса Страница
@@ -39,74 +38,74 @@ public class BaseView extends AppCompatActivity implements
     }
 
 
-    // реализация интерфейса Информатор
-    @Override
-    public void showProgressMessage(int messageId) {
-        showMessage(messageId);
-        showProgressBar();
-    }
-
-    @Override
-    public void hideProgressMessage() {
-        hideMessage();
-        hideProgressBar();
-    }
-
-    @Override
-    public void showErrorMsg(int messageId) {
-        showMessage(messageId);
-        hideProgressBar();
-    }
-
-    @Override
-    public void showErrorMsg(int messageId, String messageForConsole) {
-        showMessage(messageId);
-        hideProgressBar();
-        // TODO: реализовать getTag()...
-        //Log.e(getTag(), messageForConsole);
-    }
-
-    @Override
-    public void showToast(int messageId) {
-        String text = getResources().getString(messageId);
-        showToast(text);
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
-
-    private void showProgressBar() {
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        if (null != progressBar) {
-            MyUtils.show(progressBar);
-        }
-    }
-
-    private void hideProgressBar() {
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        if (null != progressBar) {
-            MyUtils.hide(progressBar);
-        }
-    }
-
-    private void showMessage(int messageId) {
-        String text = getResources().getString(messageId);
-        TextView messageView = findViewById(R.id.messageView);
-        if (null != messageView) {
-            messageView.setText(text);
-            MyUtils.show(messageView);
-        }
-    }
-
-    private void hideMessage() {
-        TextView messageView = findViewById(R.id.messageView);
-        if (null != messageView) {
-            MyUtils.hide(messageView);
-        }
-    }
+//    // реализация интерфейса Информатор
+//    @Override
+//    public void showProgressMessage(int messageId) {
+//        showMessage(messageId);
+//        showProgressBar();
+//    }
+//
+//    @Override
+//    public void hideProgressMessage() {
+//        hideMessage();
+//        hideProgressBar();
+//    }
+//
+//    @Override
+//    public void showErrorMsg(int messageId) {
+//        showMessage(messageId);
+//        hideProgressBar();
+//    }
+//
+//    @Override
+//    public void showErrorMsg(int messageId, String messageForConsole) {
+//        showMessage(messageId);
+//        hideProgressBar();
+//        // TODO: реализовать getTag()...
+//        //Log.e(getTag(), messageForConsole);
+//    }
+//
+//    @Override
+//    public void showToast(int messageId) {
+//        String text = getResources().getString(messageId);
+//        showToast(text);
+//    }
+//
+//    @Override
+//    public void showToast(String message) {
+//        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+//        toast.show();
+//    }
+//
+//
+//    private void showProgressBar() {
+//        ProgressBar progressBar = findViewById(R.id.progressBar);
+//        if (null != progressBar) {
+//            MyUtils.show(progressBar);
+//        }
+//    }
+//
+//    private void hideProgressBar() {
+//        ProgressBar progressBar = findViewById(R.id.progressBar);
+//        if (null != progressBar) {
+//            MyUtils.hide(progressBar);
+//        }
+//    }
+//
+//    private void showMessage(int messageId) {
+//        String text = getResources().getString(messageId);
+//        TextView messageView = findViewById(R.id.messageView);
+//        if (null != messageView) {
+//            messageView.setText(text);
+//            MyUtils.show(messageView);
+//        }
+//    }
+//
+//    private void hideMessage() {
+//        TextView messageView = findViewById(R.id.messageView);
+//        if (null != messageView) {
+//            MyUtils.hide(messageView);
+//        }
+//    }
 
 }

@@ -1,10 +1,10 @@
 package aakumykov.ru.fragmentsandviews.boards_list;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,27 +24,32 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 
-public class BoardsList_Fragment extends BaseFragment {
+public class BoardsList_Fragment extends BaseFragment implements
+        SwipeRefreshLayout.OnRefreshListener
+{
 
-    public interface iInteractionListener {
-        void onListItemClicked(String boardName);
-        void onListItemLongClicked(String boardName);
-    }
-
+//    @BindView(R.id.swipeRefresh) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.listView) ListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
+    public static final String TAG = "BoardsList_Fragment";
     private iDvachService dvachService;
     private BoardsList_Adapter listAdapter;
     private List<BoardsTOCItem> list;
-    private iInteractionListener interactionListener;
     private boolean firstRun = true;
 
-    @Nullable
-    @Override
+
+    @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        if (null != swipeRefreshLayout) {
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.setColorSchemeResources(R.color.blue_swipe, R.color.green_swipe, R.color.orange_swipe, R.color.red_swipe);
+        }
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
@@ -57,18 +62,17 @@ public class BoardsList_Fragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof iInteractionListener) {
-            interactionListener = (iInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement iInteractionListener");
-        }
+//        if (context instanceof iInteractionListener) {
+//            interactionListener = (iInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement iInteractionListener");
+//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        interactionListener = null;
     }
 
     @Override
@@ -80,29 +84,33 @@ public class BoardsList_Fragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onRefresh() {
+        loadBoardsList();
+    }
+
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         BoardsTOCItem item = list.get(position);
         String boardId = item.getId();
-        interactionListener.onListItemClicked(boardId);
     }
 
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
         BoardsTOCItem item = list.get(position);
         String boardName = item.getName();
-        interactionListener.onListItemLongClicked(boardName);
         return true;
     }
 
 
     private void loadBoardsList() {
-        showProgressMessage(R.string.BOARDS_LIST_loading_boards_list);
-
+        showProgressMessage(R.string.BOARDS_LIST_refreshing_boards_list);
+        showLoadingIndicator();
         dvachService.getBoardsList(new iDvachService.TOCReadCallbacks() {
             @Override
             public void onTOCReadSuccess(Map<String, List<BoardsTOCItem>> tocMap) {
                 hideProgressMessage();
+                hideLoadingIndicator();
                 displayBoardsList(tocMap);
             }
 
@@ -114,11 +122,21 @@ public class BoardsList_Fragment extends BaseFragment {
     }
 
     private void displayBoardsList(Map<String, List<BoardsTOCItem>> tocMap) {
+        listAdapter.clear();
         for (Map.Entry entry : tocMap.entrySet()) {
             String group = entry.getKey().toString();
             List<BoardsTOCItem> boardsInGroup = (List<BoardsTOCItem>) entry.getValue();
             list.addAll(boardsInGroup);
             listAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void showLoadingIndicator() {
+        if (null != swipeRefreshLayout)
+            swipeRefreshLayout.setRefreshing(true);
+    }
+    private void hideLoadingIndicator() {
+        if (null != swipeRefreshLayout)
+            swipeRefreshLayout.setRefreshing(false);
     }
 }

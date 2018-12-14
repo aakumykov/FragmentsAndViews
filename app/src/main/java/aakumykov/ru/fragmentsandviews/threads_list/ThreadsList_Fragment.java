@@ -42,8 +42,7 @@ public class ThreadsList_Fragment extends BaseFragment {
     private String boardName;
 
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.threads_list_fragment, container, false);
