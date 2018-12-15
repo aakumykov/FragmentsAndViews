@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment;
 import aakumykov.ru.fragmentsandviews.boards_list.BoardsList_Fragment;
 import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
+import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_Fragment;
 import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_Fragment;
 
 public class FragmentsHoldingPage extends BaseView implements
@@ -84,14 +85,31 @@ public class FragmentsHoldingPage extends BaseView implements
 
     @Override
     public void showCommentsInThread(String boardId, String threadId) {
+        Bundle arguments = new Bundle();
+        arguments.putString(Constants.BOARD_ID, boardId);
+        arguments.putString(Constants.THREAD_ID, threadId);
 
+        ThreadShow_Fragment threadShowFragment = new ThreadShow_Fragment();
+        threadShowFragment.setArguments(arguments);
+
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (null != currentFragment)
+            fragmentTransaction.hide(currentFragment);
+        fragmentTransaction.add(R.id.fragment_place, threadShowFragment);
+        fragmentTransaction.addToBackStack(ThreadShow_Fragment.TAG);
+        fragmentTransaction.commit();
     }
 
 
     private void processUpButton() {
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
 
-        if (currentFragment instanceof ThreadsList_Fragment) {
+        if (currentFragment instanceof BoardsList_Fragment) {
+            return;
+        }
+        else {
             onBackPressed();
         }
     }

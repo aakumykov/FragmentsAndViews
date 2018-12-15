@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
 
-public class ThreadShow_View extends BaseView implements ThreadShow_Fragment.iInteractionListener {
+public class ThreadShow_View extends BaseView /*implements ThreadShow_Fragment.iInteractionListener*/ {
 
     public final static String THREAD_NUM = "threadNum";
 
@@ -21,24 +21,24 @@ public class ThreadShow_View extends BaseView implements ThreadShow_Fragment.iIn
         ThreadShow_Fragment threadShowFragment =
                 (ThreadShow_Fragment) fragmentManager.findFragmentById(R.id.thread_show_fragment);
 
-        if (null != threadShowFragment)
-            threadShowFragment.processInputIntent(getIntent());
+//        if (null != threadShowFragment)
+//            threadShowFragment.processInputIntent(getIntent());
     }
 
-    @Override
-    public void onListItemClicked(int position) {
-        setPageTitle("Нажата строка "+position);
-    }
-
-    @Override
-    public void onListItemLongClicked(int position) {
-        setPageTitle("Выбрана строка "+position);
-    }
-
-    @Override
-    public void setPageTitleFromFragment(String threadName) {
-//        String title = getResources().getString(R.string.THREAD_SHOW_page_title_extended, threadName);
-//        setPageTitle(title);
-        setPageTitle(threadName);
-    }
+//    @Override
+//    public void onListItemClicked(int position) {
+//        setPageTitle("Нажата строка "+position);
+//    }
+//
+//    @Override
+//    public void onListItemLongClicked(int position) {
+//        setPageTitle("Выбрана строка "+position);
+//    }
+//
+//    @Override
+//    public void setPageTitleFromFragment(String threadName) {
+////        String title = getResources().getString(R.string.THREAD_SHOW_page_title_extended, threadName);
+////        setPageTitle(title);
+//        setPageTitle(threadName);
+//    }
 }

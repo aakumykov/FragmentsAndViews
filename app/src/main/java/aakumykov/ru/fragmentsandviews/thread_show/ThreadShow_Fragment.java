@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
+import aakumykov.ru.fragmentsandviews.Constants;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
 import aakumykov.ru.fragmentsandviews.models.Thread.OneThread;
 import aakumykov.ru.fragmentsandviews.models.Thread.Post;
 import aakumykov.ru.fragmentsandviews.models.Thread.Thread;
@@ -28,17 +30,15 @@ import butterknife.OnItemLongClick;
 
 public class ThreadShow_Fragment extends BaseFragment {
 
-    public interface iInteractionListener {
-        void onListItemClicked(int position);
-        void onListItemLongClicked(int position);
-        void setPageTitleFromFragment(String title);
-    }
-
     @BindView(R.id.listView) ListView listView;
+
+    public static final String TAG = "ThreadShow_Fragment";
     private iDvachService dvachService;
     private ThreadShow_Adapter listAdapter;
     private List<Post> list;
-    private iInteractionListener interactionListener;
+
+    private iDvachPagesInteraction dvachPagesInteraction;
+
 
     @Nullable
     @Override
@@ -52,57 +52,56 @@ public class ThreadShow_Fragment extends BaseFragment {
         listAdapter = new ThreadShow_Adapter(getContext(), R.layout.thread_show_item, list);
         listView.setAdapter(listAdapter);
 
+        Bundle arguments = getArguments();
+        if (null != arguments) {
+            String boardId = arguments.getString(Constants.BOARD_ID);
+            String threadId = arguments.getString(Constants.THREAD_ID);
+
+            try {
+                loadThread(boardId, threadId);
+            } catch (Exception e) {
+                showErrorMsg(R.string.THREAD_SHOW_error_loading_thread);
+            }
+        }
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof iInteractionListener) {
-            interactionListener = (iInteractionListener) context;
+        if (context instanceof iDvachPagesInteraction) {
+            dvachPagesInteraction = (iDvachPagesInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement iInteractionListener");
+                    + " must implement iDvachPagesInteraction");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        interactionListener = null;
+        dvachPagesInteraction = null;
     }
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
-        interactionListener.onListItemClicked(position);
     }
 
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
-        interactionListener.onListItemLongClicked(position);
         return true;
     }
 
-    public void processInputIntent(@Nullable Intent intent) {
-        if (null != intent) {
+    private void loadThread(String boardId, String threadId) throws Exception {
+        if (null == boardId && null == threadId)
+            throw new IllegalArgumentException("Where is no boardId or threadId arguments.");
 
-            // TODO: перенести в Константы?
-            String threadNum = intent.getStringExtra(ThreadShow_View.THREAD_NUM);
-            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
-
-            if (null != boardName && null != threadNum) {
-                loadThread(boardName, threadNum);
-            }
-        }
-    }
-
-    private void loadThread(String boardName, String threadNum) {
         showProgressMessage(R.string.THREAD_SHOW_loading_thread);
 
-        dvachService.getThread(boardName, threadNum, new iDvachService.ThreadReadCallbacks() {
+        dvachService.getThread(boardId, threadId, new iDvachService.ThreadReadCallbacks() {
             @Override
             public void onThreadReadSuccess(OneThread oneThread) {
-                interactionListener.setPageTitleFromFragment(oneThread.getTitle());
                 hideProgressMessage();
                 displayThread(oneThread);
             }
@@ -120,7 +119,11 @@ public class ThreadShow_Fragment extends BaseFragment {
     }
 
     private void displayThread(OneThread oneThread) {
+
+        getPage().setPageTitle(oneThread.getTitle());
+
         List<Thread> threadList = oneThread.getThreads();
+
         if (threadList.size() > 0) {
             Thread thread = threadList.get(0);
             list.addAll(thread.getPosts());

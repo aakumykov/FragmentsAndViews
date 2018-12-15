@@ -90,6 +90,8 @@ public class ThreadsList_Fragment extends BaseFragment {
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         Thread thread = list.get(position);
+        String threadId = thread.getNum();
+        dvachPagesInteraction.showCommentsInThread(boardId, threadId);
     }
 
     @OnItemLongClick(R.id.listView)
