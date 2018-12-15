@@ -8,7 +8,7 @@ import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_View;
 
-public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.iInteractionListener {
+public class ThreadsList_View extends BaseView /*implements ThreadsList_Fragment.iInteractionListener*/ {
 
     public static final String BOARD_NAME = "boardId";
 
@@ -27,23 +27,23 @@ public class ThreadsList_View extends BaseView implements ThreadsList_Fragment.i
             threadsListFragment.processInputIntent(getIntent());
     }
 
-    // TODO: архитектурный косяк: класс не знает свой boardName
-    @Override
-    public void onListItemClicked(String boardName, String threadNum) {
-        Intent intent = new Intent(this, ThreadShow_View.class);
-        intent.putExtra(ThreadShow_View.THREAD_NUM, threadNum);
-        intent.putExtra(ThreadsList_View.BOARD_NAME, boardName);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onListItemLongClicked(String boardName, String threadNum) {
-        setPageTitle("Выбран тред "+boardName+"/"+threadNum);
-    }
-
-    @Override
-    public void setPageTitleFromFragment(String boardName) {
-        String title = getResources().getString(R.string.THREADS_LIST_page_title_extended, boardName);
-        setPageTitle(title);
-    }
+//    // TODO: архитектурный косяк: класс не знает свой boardName
+//    @Override
+//    public void onListItemClicked(String boardName, String threadNum) {
+//        Intent intent = new Intent(this, ThreadShow_View.class);
+//        intent.putExtra(ThreadShow_View.THREAD_NUM, threadNum);
+//        intent.putExtra(ThreadsList_View.BOARD_NAME, boardName);
+//        startActivity(intent);
+//    }
+//
+//    @Override
+//    public void onListItemLongClicked(String boardName, String threadNum) {
+//        setPageTitle("Выбран тред "+boardName+"/"+threadNum);
+//    }
+//
+//    @Override
+//    public void setPageTitleFromFragment(String boardName) {
+//        String title = getResources().getString(R.string.THREADS_LIST_page_title_extended, boardName);
+//        setPageTitle(title);
+//    }
 }

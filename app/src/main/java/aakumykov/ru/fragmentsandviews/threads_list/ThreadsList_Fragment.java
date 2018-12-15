@@ -28,11 +28,6 @@ import butterknife.OnItemLongClick;
 
 public class ThreadsList_Fragment extends BaseFragment {
 
-    public interface iInteractionListener {
-        void onListItemClicked(String boardName, String threadNum);
-        void onListItemLongClicked(String boardName, String threadNum);
-        void setPageTitleFromFragment(String title);
-    }
 
     @BindView(R.id.listView) ListView listView;
 
@@ -40,7 +35,6 @@ public class ThreadsList_Fragment extends BaseFragment {
     private iDvachService dvachService;
     private ThreadsList_Adapter listAdapter;
     private List<Thread> list;
-    private iInteractionListener interactionListener;
     private boolean firstRun = true;
     private String boardId;
 
@@ -89,20 +83,18 @@ public class ThreadsList_Fragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        interactionListener = null;
+        dvachPagesInteraction = null;
     }
 
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         Thread thread = list.get(position);
-        interactionListener.onListItemClicked(boardId, thread.getNum());
     }
 
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
         Thread thread = list.get(position);
-        interactionListener.onListItemLongClicked(boardId, thread.getNum());
         return true;
     }
 
@@ -126,7 +118,8 @@ public class ThreadsList_Fragment extends BaseFragment {
             public void onBardReadSuccess(Board board) {
                 hideProgressMessage();
                 displayThreadsList(board);
-                getPage().setPageTitle(board.getBoardName());
+                String fullTitle = getResources().getString(R.string.THREADS_LIST_page_title_extended, board.getBoardName());
+                getPage().setPageTitle(fullTitle);
             }
 
             @Override

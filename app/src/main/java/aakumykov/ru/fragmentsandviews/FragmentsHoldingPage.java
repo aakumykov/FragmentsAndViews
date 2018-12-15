@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 
 import aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment;
 import aakumykov.ru.fragmentsandviews.boards_list.BoardsList_Fragment;
@@ -35,6 +36,18 @@ public class FragmentsHoldingPage extends BaseView implements
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                processUpButton();
+                break;
+            default:
+                super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    @Override
     public void showBoardsOnDvach() {
         BoardsList_Fragment boardsListFragment = new BoardsList_Fragment();
 
@@ -62,17 +75,24 @@ public class FragmentsHoldingPage extends BaseView implements
         fragmentTransaction.addToBackStack(BoardsList_Fragment.TAG);
 
 //        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_EXIT_MASK);
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         fragmentTransaction.commit();
+
+        activateUpButton();
     }
 
     @Override
     public void showCommentsInThread(String boardId, String threadId) {
 
+    }
+
+
+    private void processUpButton() {
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
+
+        if (currentFragment instanceof ThreadsList_Fragment) {
+            onBackPressed();
+        }
     }
 }
