@@ -79,8 +79,6 @@ public class FragmentsHoldingPage extends BaseView implements
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 
         fragmentTransaction.commit();
-
-        activateUpButton();
     }
 
     @Override

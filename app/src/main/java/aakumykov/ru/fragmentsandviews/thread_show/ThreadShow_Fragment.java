@@ -40,12 +40,13 @@ public class ThreadShow_Fragment extends BaseFragment {
     private iDvachPagesInteraction dvachPagesInteraction;
 
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        getPage().activateUpButton();
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
@@ -92,6 +93,7 @@ public class ThreadShow_Fragment extends BaseFragment {
     boolean onItemLongClicked(int position) {
         return true;
     }
+
 
     private void loadThread(String boardId, String threadId) throws Exception {
         if (null == boardId && null == threadId)

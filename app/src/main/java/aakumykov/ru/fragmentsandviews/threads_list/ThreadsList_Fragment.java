@@ -46,6 +46,8 @@ public class ThreadsList_Fragment extends BaseFragment {
         View view = inflater.inflate(R.layout.threads_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
+        getPage().activateUpButton();
+
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
         listAdapter = new ThreadsList_Adapter(getContext(), R.layout.threads_list_item, list);

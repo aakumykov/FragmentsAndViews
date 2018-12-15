@@ -37,8 +37,14 @@ public class BaseView extends AppCompatActivity implements
             actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void disactivateUpButton() {
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar)
+            actionBar.setDisplayHomeAsUpEnabled(false);
+    }
 
-//    // реализация интерфейса Информатор
+    //    // реализация интерфейса Информатор
 //    @Override
 //    public void showProgressMessage(int messageId) {
 //        showMessage(messageId);

@@ -48,6 +48,8 @@ public class BoardsList_Fragment extends BaseFragment implements
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
 
+        getPage().disactivateUpButton();
+
 //        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
 //        if (null != swipeRefreshLayout) {
 //            swipeRefreshLayout.setOnRefreshListener(this);
