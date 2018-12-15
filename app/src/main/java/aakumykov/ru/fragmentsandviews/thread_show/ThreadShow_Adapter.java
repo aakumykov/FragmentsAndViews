@@ -6,21 +6,30 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import aakumykov.ru.fragmentsandviews.Constants;
 import aakumykov.ru.fragmentsandviews.R;
+import aakumykov.ru.fragmentsandviews.models.Thread.File;
 import aakumykov.ru.fragmentsandviews.models.Thread.Post;
+import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ThreadShow_Adapter extends ArrayAdapter<Post> {
 
+    public static final String TAG = "ThreadShow_Adapter";
     private LayoutInflater inflater;
     private int layout;
     private List<Post> list;
@@ -59,11 +68,38 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
         }
         viewHolder.commentView.setText(spannedComment);
 
+        List<File> files = post.getFiles();
+        if (files.size() > 0) {
+            final ImageView imageView = viewHolder.commentImage;
+            String thumbnailPath = Constants.BASE_URL + files.get(0).getThumbnail();
+            Picasso.get().load(thumbnailPath).into(imageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    MyUtils.show(imageView);
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+        }
+
+        String commentInfo = "";
+        commentInfo += "#"+post.getNum().toString();
+        commentInfo += "\n";
+        commentInfo += post.getDate();
+
+        viewHolder.commentInfo.setText(commentInfo);
+
         return convertView;
     }
 
     static class ViewHolder {
-        @BindView(R.id.threadComment) TextView commentView;
+        @BindView(R.id.commentText) TextView commentView;
+        @BindView(R.id.commentImage) ImageView commentImage;
+        @BindView(R.id.commentInfo) TextView commentInfo;
+
         ViewHolder(View view){
             ButterKnife.bind(this, view);
         }

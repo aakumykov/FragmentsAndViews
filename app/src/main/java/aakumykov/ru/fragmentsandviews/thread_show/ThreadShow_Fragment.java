@@ -82,14 +82,14 @@ public class ThreadShow_Fragment extends BaseFragment {
         dvachPagesInteraction = null;
     }
 
-    @OnItemClick(R.id.listView)
-    void onItemClicked(int position) {
-    }
-
-    @OnItemLongClick(R.id.listView)
-    boolean onItemLongClicked(int position) {
-        return true;
-    }
+//    @OnItemClick(R.id.listView)
+//    void onItemClicked(int position) {
+//    }
+//
+//    @OnItemLongClick(R.id.listView)
+//    boolean onItemLongClicked(int position) {
+//        return true;
+//    }
 
     @Override
     public void onBringToFront() {
