@@ -28,12 +28,14 @@ public class List_Fragment extends BaseFragment {
     }
 
     @BindView(R.id.listView) ListView listView;
+
+    public static final String TAG = "List_Fragment";
     private List_Adapter listAdapter;
     private List<Element> elementsList;
     private iInteractionListener interactionListener;
 
-    @Nullable
-    @Override
+
+    @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
@@ -65,6 +67,16 @@ public class List_Fragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         interactionListener = null;
+    }
+
+    @Override
+    public void onBringToFront() {
+        setDefaultPageTitle();
+    }
+
+    @Override
+    protected void setDefaultPageTitle() {
+        getPage().setPageTitle("Шаблон фрагмента со списком");
     }
 
 

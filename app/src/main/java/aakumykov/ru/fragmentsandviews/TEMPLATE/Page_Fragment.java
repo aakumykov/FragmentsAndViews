@@ -21,10 +21,19 @@ public class Page_Fragment extends BaseFragment {
         void onButtonClicked(String message);
     }
 
-
     @BindView(R.id.button) Button button;
+
+    public static final String TAG = "Page_Fragment";
     private iInteractionListener interactionsListener;
 
+
+    @Nullable @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.main_fragment, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -43,24 +52,14 @@ public class Page_Fragment extends BaseFragment {
         interactionsListener = null;
     }
 
-    @Nullable @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.main_fragment, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+    @Override
+    public void onBringToFront() {
+        setDefaultPageTitle();
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        showToast(R.string.fragment_started);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        showToast(R.string.fragment_stopped);
+    protected void setDefaultPageTitle() {
+        getPage().setPageTitle("Шаблон фрагмента");
     }
 
 

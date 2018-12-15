@@ -46,8 +46,6 @@ public class ThreadsList_Fragment extends BaseFragment {
         View view = inflater.inflate(R.layout.threads_list_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        getPage().activateUpButton();
-
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
         listAdapter = new ThreadsList_Adapter(getContext(), R.layout.threads_list_item, list);
@@ -56,8 +54,6 @@ public class ThreadsList_Fragment extends BaseFragment {
         Bundle arguments = getArguments();
         if (null != arguments)
             boardId = arguments.getString(Constants.BOARD_ID);
-
-        getPage().setPageTitle(R.string.THREADS_LIST_page_title);
 
         return view;
     }
@@ -88,7 +84,6 @@ public class ThreadsList_Fragment extends BaseFragment {
         dvachPagesInteraction = null;
     }
 
-
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         Thread thread = list.get(position);
@@ -100,6 +95,17 @@ public class ThreadsList_Fragment extends BaseFragment {
     boolean onItemLongClicked(int position) {
         Thread thread = list.get(position);
         return true;
+    }
+
+    @Override
+    public void onBringToFront() {
+        setDefaultPageTitle();
+        getPage().activateUpButton();
+    }
+
+    @Override
+    protected void setDefaultPageTitle() {
+        getPage().setPageTitle(R.string.THREADS_LIST_page_title);
     }
 
 

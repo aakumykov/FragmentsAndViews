@@ -11,7 +11,7 @@ import aakumykov.ru.fragmentsandviews.interfaces.iInformer;
 import aakumykov.ru.fragmentsandviews.interfaces.iPage;
 import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 
-public class BaseFragment extends Fragment implements iBaseFragment {
+public abstract class BaseFragment extends Fragment implements iBaseFragment {
 
     private iPage page;
 
@@ -75,6 +75,11 @@ public class BaseFragment extends Fragment implements iBaseFragment {
     public iPage getPage() {
         return page;
     }
+
+
+    public abstract void onBringToFront();
+
+    protected abstract void setDefaultPageTitle();
 
 
     private void showProgressBar() {

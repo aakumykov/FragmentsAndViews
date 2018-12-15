@@ -7,24 +7,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment;
 import aakumykov.ru.fragmentsandviews.boards_list.BoardsList_Fragment;
 import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
 import aakumykov.ru.fragmentsandviews.thread_show.ThreadShow_Fragment;
 import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_Fragment;
 
 public class FragmentsHoldingPage extends BaseView implements
-        iDvachPagesInteraction
+        iDvachPagesInteraction,
+        FragmentManager.OnBackStackChangedListener
 {
     private FragmentManager fragmentManager;
     private boolean firstRun = true;
 
-    @SuppressLint("CommitTransaction")
-    @Override
+    @SuppressLint("CommitTransaction") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_page_activity);
+
         fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
     }
 
     @Override
@@ -34,6 +35,13 @@ public class FragmentsHoldingPage extends BaseView implements
             firstRun = false;
             showBoardsOnDvach();
         }
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
+        if (null != currentFragment)
+            currentFragment.onBringToFront();
     }
 
     @Override
@@ -47,6 +55,7 @@ public class FragmentsHoldingPage extends BaseView implements
         }
         return true;
     }
+
 
     @Override
     public void showBoardsOnDvach() {

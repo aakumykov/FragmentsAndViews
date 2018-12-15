@@ -27,18 +27,18 @@ public class ThreadShow_View extends BaseView /*implements ThreadShow_Fragment.i
 
 //    @Override
 //    public void onListItemClicked(int position) {
-//        setPageTitle("Нажата строка "+position);
+//        setDefaultPageTitle("Нажата строка "+position);
 //    }
 //
 //    @Override
 //    public void onListItemLongClicked(int position) {
-//        setPageTitle("Выбрана строка "+position);
+//        setDefaultPageTitle("Выбрана строка "+position);
 //    }
 //
 //    @Override
 //    public void setPageTitleFromFragment(String threadName) {
 ////        String title = getResources().getString(R.string.THREAD_SHOW_page_title_extended, threadName);
-////        setPageTitle(title);
-//        setPageTitle(threadName);
+////        setDefaultPageTitle(title);
+//        setDefaultPageTitle(threadName);
 //    }
 }

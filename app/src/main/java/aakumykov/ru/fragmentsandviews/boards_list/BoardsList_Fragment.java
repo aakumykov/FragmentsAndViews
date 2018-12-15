@@ -48,20 +48,14 @@ public class BoardsList_Fragment extends BaseFragment implements
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        getPage().disactivateUpButton();
-
-//        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
-//        if (null != swipeRefreshLayout) {
-//            swipeRefreshLayout.setOnRefreshListener(this);
-//            swipeRefreshLayout.setColorSchemeResources(R.color.blue_swipe, R.color.green_swipe, R.color.orange_swipe, R.color.red_swipe);
-//        }
+//        getPage().disactivateUpButton();
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
         listAdapter = new BoardsList_Adapter(getContext(), R.layout.boards_list_item, list);
         listView.setAdapter(listAdapter);
 
-        getPage().setPageTitle(R.string.BOARDS_LIST_page_title);
+        setDefaultPageTitle();
 
         return view;
     }
@@ -110,6 +104,18 @@ public class BoardsList_Fragment extends BaseFragment implements
         String boardName = item.getName();
         return true;
     }
+
+    @Override
+    public void onBringToFront() {
+        setDefaultPageTitle();
+        getPage().disactivateUpButton();
+    }
+
+    @Override
+    protected void setDefaultPageTitle() {
+        getPage().setPageTitle(R.string.BOARDS_LIST_page_title);
+    }
+
 
 
     private void loadBoardsList() {

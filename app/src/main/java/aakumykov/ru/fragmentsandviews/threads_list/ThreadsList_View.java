@@ -38,12 +38,12 @@ public class ThreadsList_View extends BaseView /*implements ThreadsList_Fragment
 //
 //    @Override
 //    public void onListItemLongClicked(String boardName, String threadNum) {
-//        setPageTitle("Выбран тред "+boardName+"/"+threadNum);
+//        setDefaultPageTitle("Выбран тред "+boardName+"/"+threadNum);
 //    }
 //
 //    @Override
 //    public void setPageTitleFromFragment(String boardName) {
 //        String title = getResources().getString(R.string.THREADS_LIST_page_title_extended, boardName);
-//        setPageTitle(title);
+//        setDefaultPageTitle(title);
 //    }
 }

@@ -39,7 +39,6 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     private iDvachPagesInteraction dvachPagesInteraction;
 
-
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -92,6 +91,17 @@ public class ThreadShow_Fragment extends BaseFragment {
     @OnItemLongClick(R.id.listView)
     boolean onItemLongClicked(int position) {
         return true;
+    }
+
+    @Override
+    public void onBringToFront() {
+        setDefaultPageTitle();
+        getPage().activateUpButton();
+    }
+
+    @Override
+    protected void setDefaultPageTitle() {
+        getPage().setPageTitle(R.string.THREAD_SHOW_page_title);
     }
 
 
