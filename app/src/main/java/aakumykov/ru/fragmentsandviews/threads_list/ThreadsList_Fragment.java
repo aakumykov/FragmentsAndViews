@@ -37,6 +37,7 @@ public class ThreadsList_Fragment extends BaseFragment {
     private List<Thread> list;
     private boolean firstRun = true;
     private String boardId;
+    private String currentTitle;
 
     private iDvachPagesInteraction dvachPagesInteraction;
 
@@ -99,8 +100,10 @@ public class ThreadsList_Fragment extends BaseFragment {
 
     @Override
     public void onBringToFront() {
-        setDefaultPageTitle();
         getPage().activateUpButton();
+
+        if (null != currentTitle) getPage().setPageTitle(currentTitle);
+        else setDefaultPageTitle();
     }
 
     @Override
@@ -108,17 +111,6 @@ public class ThreadsList_Fragment extends BaseFragment {
         getPage().setPageTitle(R.string.THREADS_LIST_page_title);
     }
 
-
-    public void processInputIntent(@Nullable Intent intent) {
-
-        if (null != intent) {
-            String boardName = intent.getStringExtra(ThreadsList_View.BOARD_NAME);
-            if (null != boardName) {
-                this.boardId = boardName;
-                loadThreadsList(boardName);
-            }
-        }
-    }
 
     private void loadThreadsList(String boardName) {
         showProgressMessage(R.string.THREADS_LIST_loading_threads_list);
@@ -128,8 +120,8 @@ public class ThreadsList_Fragment extends BaseFragment {
             public void onBardReadSuccess(Board board) {
                 hideProgressMessage();
                 displayThreadsList(board);
-                String fullTitle = getResources().getString(R.string.THREADS_LIST_page_title_extended, board.getBoardName());
-                getPage().setPageTitle(fullTitle);
+                currentTitle = getResources().getString(R.string.THREADS_LIST_page_title_extended, board.getBoardName());
+                getPage().setPageTitle(currentTitle);
             }
 
             @Override

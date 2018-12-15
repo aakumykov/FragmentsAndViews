@@ -1,7 +1,6 @@
 package aakumykov.ru.fragmentsandviews.thread_show;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +21,6 @@ import aakumykov.ru.fragmentsandviews.models.Thread.Post;
 import aakumykov.ru.fragmentsandviews.models.Thread.Thread;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
-import aakumykov.ru.fragmentsandviews.threads_list.ThreadsList_View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
