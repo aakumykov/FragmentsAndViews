@@ -23,7 +23,7 @@
             android:name=".thread_show.ThreadShow_View"
             android:parentActivityName=".threads_list.ThreadsList_View" />
 
-        <activity android:name=".FragmentsPage">
+        <activity android:name=".FragmentsHoldingPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
