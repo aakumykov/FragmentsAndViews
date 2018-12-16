@@ -2,11 +2,7 @@ package aakumykov.ru.fragmentsandviews.thread_show;
 
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.text.Html;
-import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
-import aakumykov.ru.fragmentsandviews.Constants;
 import aakumykov.ru.fragmentsandviews.R;
-import aakumykov.ru.fragmentsandviews.models.Thread.File;
 import aakumykov.ru.fragmentsandviews.models.Thread.Post;
 import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
-import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,7 +49,7 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
         String rawComment = post.getComment();
 
         // Коммент в TXT
-        String cleanComment = DvachUtils.processComment(rawComment);
+        String cleanComment = DvachUtils.preProcessComment(rawComment);
         viewHolder.commentView.setText(cleanComment);
 
         // Коммент в HTML

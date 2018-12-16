@@ -1,7 +1,9 @@
 package aakumykov.ru.fragmentsandviews;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +21,10 @@ public class FragmentsHoldingPage extends BaseView implements
     private FragmentManager fragmentManager;
     private boolean firstRun = true;
 
+    private FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks;
+
+
+    // Системные методы
     @SuppressLint("CommitTransaction") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,18 @@ public class FragmentsHoldingPage extends BaseView implements
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
+
+        fragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
+            @Override
+            public void onFragmentAttached(@NonNull FragmentManager fm, @NonNull Fragment f, @NonNull Context context) {
+                super.onFragmentAttached(fm, f, context);
+            }
+
+            @Override
+            public void onFragmentDetached(@NonNull FragmentManager fm, @NonNull Fragment f) {
+                super.onFragmentDetached(fm, f);
+            }
+        };
     }
 
     @Override
@@ -38,10 +56,9 @@ public class FragmentsHoldingPage extends BaseView implements
     }
 
     @Override
-    public void onBackStackChanged() {
-        BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
-        if (null != currentFragment)
-            currentFragment.onBringToFront();
+    protected void onStop() {
+        super.onStop();
+        fragmentManager.removeOnBackStackChangedListener(this);
     }
 
     @Override
@@ -56,7 +73,18 @@ public class FragmentsHoldingPage extends BaseView implements
         return true;
     }
 
+    @Override
+    public void onBackStackChanged() {
+        BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
 
+        if (null != currentFragment)
+            currentFragment.onBringToFront();
+
+        fragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false);
+    }
+
+
+    // Интерфейсные методы
     @Override
     public void showBoardsOnDvach() {
         BoardsList_Fragment boardsListFragment = new BoardsList_Fragment();
@@ -110,6 +138,7 @@ public class FragmentsHoldingPage extends BaseView implements
     }
 
 
+    // Внутренние методы
     private void processUpButton() {
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
 

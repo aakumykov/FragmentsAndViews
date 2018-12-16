@@ -2,8 +2,10 @@ package aakumykov.ru.fragmentsandviews.thread_show;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
 import aakumykov.ru.fragmentsandviews.Constants;
@@ -21,10 +24,10 @@ import aakumykov.ru.fragmentsandviews.models.Thread.Post;
 import aakumykov.ru.fragmentsandviews.models.Thread.Thread;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
+import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
-import butterknife.OnItemLongClick;
 
 public class ThreadShow_Fragment extends BaseFragment {
 
@@ -37,6 +40,9 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     private iDvachPagesInteraction dvachPagesInteraction;
 
+    private TextToSpeech textToSpeech;
+
+
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -45,10 +51,11 @@ public class ThreadShow_Fragment extends BaseFragment {
 
         getPage().activateUpButton();
 
-        dvachService = DvachService.getInstance();
         list = new ArrayList<>();
         listAdapter = new ThreadShow_Adapter(getContext(), R.layout.thread_show_item, list);
         listView.setAdapter(listAdapter);
+
+        dvachService = DvachService.getInstance();
 
         Bundle arguments = getArguments();
         if (null != arguments) {
@@ -68,23 +75,31 @@ public class ThreadShow_Fragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof iDvachPagesInteraction) {
             dvachPagesInteraction = (iDvachPagesInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement iDvachPagesInteraction");
         }
+
+        initTTS();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         dvachPagesInteraction = null;
+
+        shutdownTTS();
     }
 
-//    @OnItemClick(R.id.listView)
-//    void onItemClicked(int position) {
-//    }
+    @OnItemClick(R.id.listView)
+    void onItemClicked(int position) {
+        Post post = list.get(position);
+        String postText = DvachUtils.preProcessComment(post.getComment());
+
+    }
 //
 //    @OnItemLongClick(R.id.listView)
 //    boolean onItemLongClicked(int position) {
@@ -97,6 +112,8 @@ public class ThreadShow_Fragment extends BaseFragment {
         getPage().activateUpButton();
     }
 
+
+
     @Override
     protected void setDefaultPageTitle() {
         getPage().setPageTitle(R.string.THREAD_SHOW_page_title);
@@ -108,6 +125,7 @@ public class ThreadShow_Fragment extends BaseFragment {
             throw new IllegalArgumentException("Where is no boardId or threadId arguments.");
 
         showProgressMessage(R.string.THREAD_SHOW_loading_thread);
+        textToSpeech.speak("Загружаю тред", TextToSpeech.QUEUE_FLUSH, null);
 
         dvachService.getThread(boardId, threadId, new iDvachService.ThreadReadCallbacks() {
             @Override
@@ -119,11 +137,13 @@ public class ThreadShow_Fragment extends BaseFragment {
             @Override
             public void onThreadMissing() {
                 showErrorMsg(R.string.THREAD_SHOW_thread_missing);
+                textToSpeech.speak("Тред не найден", TextToSpeech.QUEUE_FLUSH, null);
             }
 
             @Override
             public void onThreadReadFail(String errorMsg) {
                 showErrorMsg(R.string.THREAD_SHOW_error_loading_thread, errorMsg);
+                textToSpeech.speak("Ошибка загрузки треда", TextToSpeech.QUEUE_FLUSH, null);
             }
         });
     }
@@ -136,8 +156,39 @@ public class ThreadShow_Fragment extends BaseFragment {
 
         if (threadList.size() > 0) {
             Thread thread = threadList.get(0);
+
+            String title = oneThread.getTitle();
+            textToSpeech.speak("Тред "+title, TextToSpeech.QUEUE_FLUSH, null);
+
             list.addAll(thread.getPosts());
             listAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void initTTS() {
+        textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+
+                    Locale locale = new Locale("ru");
+
+                    int result = textToSpeech.setLanguage(locale);
+
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e(TAG, "Извините, этот язык не поддерживается");
+                    }
+
+                } else {
+                    Log.e("TTS", "Ошибка первичной настройки движка TTS.");
+                }
+            }
+        });
+    }
+
+    private void shutdownTTS() {
+        textToSpeech.stop();
+        textToSpeech.shutdown();
     }
 }

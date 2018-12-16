@@ -7,7 +7,7 @@ public class DvachUtils {
     private DvachUtils(){}
 
 
-    public static String processComment(String text) {
+    public static String preProcessComment(String text) {
         text = (text + "").trim();
         text = clearThreadComment(text);
         text = br2nl(text);
