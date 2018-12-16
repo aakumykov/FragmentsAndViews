@@ -23,6 +23,7 @@ import aakumykov.ru.fragmentsandviews.Constants;
 import aakumykov.ru.fragmentsandviews.R;
 import aakumykov.ru.fragmentsandviews.models.Thread.File;
 import aakumykov.ru.fragmentsandviews.models.Thread.Post;
+import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
 import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,40 +58,43 @@ public class ThreadShow_Adapter extends ArrayAdapter<Post> {
         Post post = list.get(position);
         String rawComment = post.getComment();
 
-//        String cleanComment = DvachUtils.processComment(rawComment);
-//        viewHolder.commentView.setText(cleanComment);
+        // Коммент в TXT
+        String cleanComment = DvachUtils.processComment(rawComment);
+        viewHolder.commentView.setText(cleanComment);
 
-        Spanned spannedComment;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            spannedComment = Html.fromHtml(rawComment, Html.FROM_HTML_MODE_COMPACT);
-        } else {
-            spannedComment = Html.fromHtml(rawComment);
-        }
-        viewHolder.commentView.setText(spannedComment);
+        // Коммент в HTML
+//        Spanned spannedComment;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            spannedComment = Html.fromHtml(rawComment, Html.FROM_HTML_MODE_COMPACT);
+//        } else {
+//            spannedComment = Html.fromHtml(rawComment);
+//        }
+//        viewHolder.commentView.setText(spannedComment);
 
-        List<File> files = post.getFiles();
-        if (files.size() > 0) {
-            final ImageView imageView = viewHolder.commentImage;
-            String thumbnailPath = Constants.BASE_URL + files.get(0).getThumbnail();
-            Picasso.get().load(thumbnailPath).into(imageView, new Callback() {
-                @Override
-                public void onSuccess() {
-                    MyUtils.show(imageView);
-                }
+        // Первая картинка из комментария
+//        List<File> files = post.getFiles();
+//        if (files.size() > 0) {
+//            final ImageView imageView = viewHolder.commentImage;
+//            String thumbnailPath = Constants.BASE_URL + files.get(0).getThumbnail();
+//            Picasso.get().load(thumbnailPath).into(imageView, new Callback() {
+//                @Override
+//                public void onSuccess() {
+//                    MyUtils.show(imageView);
+//                }
+//
+//                @Override
+//                public void onError(Exception e) {
+//
+//                }
+//            });
+//        }
 
-                @Override
-                public void onError(Exception e) {
-
-                }
-            });
-        }
-
-        String commentInfo = "";
-        commentInfo += "#"+post.getNum().toString();
-        commentInfo += "\n";
-        commentInfo += post.getDate();
-
-        viewHolder.commentInfo.setText(commentInfo);
+        // Метаданные комментария
+//        String commentInfo = "";
+//        commentInfo += "#"+post.getNum().toString();
+//        commentInfo += "\n";
+//        commentInfo += post.getDate();
+//        viewHolder.commentInfo.setText(commentInfo);
 
         return convertView;
     }
