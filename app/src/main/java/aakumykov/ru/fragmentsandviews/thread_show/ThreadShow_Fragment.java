@@ -102,6 +102,18 @@ public class ThreadShow_Fragment extends BaseFragment {
         shutdownTTS();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        shutdownTTS();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initTTS();
+    }
+
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
         Post post = postsList.get(position);
@@ -218,19 +230,15 @@ public class ThreadShow_Fragment extends BaseFragment {
     }
 
     private void readThreadWithVoice() {
-//        String fullThreadText = "";
 
         for (int i = 0; i< postsList.size(); i++) {
 
             Post post = postsList.get(i);
 
             String comment = DvachUtils.preProcessComment(post.getComment());
-//            fullThreadText += comment;
-//            fullThreadText += "\n\n";
+            comment += " ... ";
 
             textToSpeech.speak(comment, TextToSpeech.QUEUE_ADD, null);
         }
-
-//        textToSpeech.speak(fullThreadText, TextToSpeech.QUEUE_ADD, null);
     }
 }
