@@ -18,4 +18,5 @@
     <string name="THREAD_SHOW_loading_thread">Loading thread</string>
     <string name="THREAD_SHOW_error_loading_thread">Loading thread error</string>
     <string name="THREAD_SHOW_thread_missing">Thread missing</string>
+    <string name="MENU_read_with_voice">Read with voice</string>
 </resources>

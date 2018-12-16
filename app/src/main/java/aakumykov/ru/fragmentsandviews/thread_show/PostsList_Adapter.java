@@ -18,14 +18,14 @@ import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ThreadShow_Adapter extends ArrayAdapter<Post> {
+public class PostsList_Adapter extends ArrayAdapter<Post> {
 
-    public static final String TAG = "ThreadShow_Adapter";
+    public static final String TAG = "PostsList_Adapter";
     private LayoutInflater inflater;
     private int layout;
     private List<Post> list;
 
-    ThreadShow_Adapter(Context context, int resource, List<Post> list) {
+    PostsList_Adapter(Context context, int resource, List<Post> list) {
         super(context, resource, list);
         this.list = list;
         this.layout = resource;

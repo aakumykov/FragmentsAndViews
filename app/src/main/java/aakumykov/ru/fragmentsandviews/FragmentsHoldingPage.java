@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import aakumykov.ru.fragmentsandviews.boards_list.BoardsList_Fragment;
@@ -21,8 +22,6 @@ public class FragmentsHoldingPage extends BaseView implements
     private FragmentManager fragmentManager;
     private boolean firstRun = true;
 
-    private FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks;
-
 
     // Системные методы
     @SuppressLint("CommitTransaction") @Override
@@ -32,18 +31,6 @@ public class FragmentsHoldingPage extends BaseView implements
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
-
-        fragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
-            @Override
-            public void onFragmentAttached(@NonNull FragmentManager fm, @NonNull Fragment f, @NonNull Context context) {
-                super.onFragmentAttached(fm, f, context);
-            }
-
-            @Override
-            public void onFragmentDetached(@NonNull FragmentManager fm, @NonNull Fragment f) {
-                super.onFragmentDetached(fm, f);
-            }
-        };
     }
 
     @Override
@@ -62,15 +49,22 @@ public class FragmentsHoldingPage extends BaseView implements
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 processUpButton();
-                break;
+                return true;
+
             default:
-                super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     @Override
@@ -79,8 +73,6 @@ public class FragmentsHoldingPage extends BaseView implements
 
         if (null != currentFragment)
             currentFragment.onBringToFront();
-
-        fragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false);
     }
 
 

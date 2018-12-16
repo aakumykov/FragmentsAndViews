@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -35,13 +38,18 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     public static final String TAG = "ThreadShow_Fragment";
     private iDvachService dvachService;
-    private ThreadShow_Adapter listAdapter;
-    private List<Post> list;
+    private PostsList_Adapter postsListAdapter;
+    private List<Post> postsList;
 
     private iDvachPagesInteraction dvachPagesInteraction;
-
     private TextToSpeech textToSpeech;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,16 +59,16 @@ public class ThreadShow_Fragment extends BaseFragment {
 
         getPage().activateUpButton();
 
-        list = new ArrayList<>();
-        listAdapter = new ThreadShow_Adapter(getContext(), R.layout.thread_show_item, list);
-        listView.setAdapter(listAdapter);
+        postsList = new ArrayList<>();
+        postsListAdapter = new PostsList_Adapter(getContext(), R.layout.thread_show_item, postsList);
+        listView.setAdapter(postsListAdapter);
 
         dvachService = DvachService.getInstance();
 
         Bundle arguments = getArguments();
         if (null != arguments) {
-            String boardId = arguments.getString(Constants.BOARD_ID);
-            String threadId = arguments.getString(Constants.THREAD_ID);
+            String boardId = arguments.getString(Constants.BOARD_ID, null);
+            String threadId = arguments.getString(Constants.THREAD_ID, null);
 
             try {
                 loadThread(boardId, threadId);
@@ -96,7 +104,7 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
-        Post post = list.get(position);
+        Post post = postsList.get(position);
         String postText = DvachUtils.preProcessComment(post.getComment());
 
     }
@@ -106,13 +114,30 @@ public class ThreadShow_Fragment extends BaseFragment {
 //        return true;
 //    }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.thread_show_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionReadWithVoice:
+                readThreadWithVoice();
+                break;
+            default:
+                super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
     @Override
     public void onBringToFront() {
         setDefaultPageTitle();
         getPage().activateUpButton();
     }
-
-
 
     @Override
     protected void setDefaultPageTitle() {
@@ -158,10 +183,10 @@ public class ThreadShow_Fragment extends BaseFragment {
             Thread thread = threadList.get(0);
 
             String title = oneThread.getTitle();
-            textToSpeech.speak("Тред "+title, TextToSpeech.QUEUE_FLUSH, null);
+            textToSpeech.speak(title, TextToSpeech.QUEUE_FLUSH, null);
 
-            list.addAll(thread.getPosts());
-            listAdapter.notifyDataSetChanged();
+            postsList.addAll(thread.getPosts());
+            postsListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -190,5 +215,22 @@ public class ThreadShow_Fragment extends BaseFragment {
     private void shutdownTTS() {
         textToSpeech.stop();
         textToSpeech.shutdown();
+    }
+
+    private void readThreadWithVoice() {
+//        String fullThreadText = "";
+
+        for (int i = 0; i< postsList.size(); i++) {
+
+            Post post = postsList.get(i);
+
+            String comment = DvachUtils.preProcessComment(post.getComment());
+//            fullThreadText += comment;
+//            fullThreadText += "\n\n";
+
+            textToSpeech.speak(comment, TextToSpeech.QUEUE_ADD, null);
+        }
+
+//        textToSpeech.speak(fullThreadText, TextToSpeech.QUEUE_ADD, null);
     }
 }
