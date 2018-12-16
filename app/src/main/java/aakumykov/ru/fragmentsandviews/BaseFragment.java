@@ -1,14 +1,37 @@
 package aakumykov.ru.fragmentsandviews;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import aakumykov.ru.fragmentsandviews.interfaces.iInformer;
+import aakumykov.ru.fragmentsandviews.interfaces.iPage;
 import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 
-public class BaseFragment extends Fragment implements iBaseFragment {
+public abstract class BaseFragment extends Fragment implements iBaseFragment {
+
+    private iPage page;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof iPage) {
+            page = (iPage) context;
+        } else {
+            throw new RuntimeException(context+" must implement iPage interface.");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        page = null;
+    }
+
 
     @Override
     public void showProgressMessage(int messageId) {
@@ -47,6 +70,16 @@ public class BaseFragment extends Fragment implements iBaseFragment {
             toast.show();
         }
     }
+
+    @Override
+    public iPage getPage() {
+        return page;
+    }
+
+
+    public abstract void onBringToFront();
+
+    protected abstract void setDefaultPageTitle();
 
 
     private void showProgressBar() {

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import aakumykov.ru.fragmentsandviews.Constants;
 import aakumykov.ru.fragmentsandviews.models.Board.Board;
 import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
 import aakumykov.ru.fragmentsandviews.models.Thread.OneThread;
@@ -25,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DvachService implements iDvachService {
 
-    private static final String BASE_URL = "https://2ch.hk/";
     private static final TypeAdapter<Boolean> booleanAsIntAdapter = new TypeAdapter<Boolean>() {
 
         @Override public void write(JsonWriter out, Boolean value) throws IOException {
@@ -74,7 +74,7 @@ public class DvachService implements iDvachService {
         GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(gsonConverterFactory)
                 .build();
 

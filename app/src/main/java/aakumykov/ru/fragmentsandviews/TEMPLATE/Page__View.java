@@ -5,7 +5,7 @@ import android.os.Bundle;
 import aakumykov.ru.fragmentsandviews.BaseView;
 import aakumykov.ru.fragmentsandviews.R;
 
-public class Page_View extends BaseView implements
+public class Page__View extends BaseView implements
         Page_Fragment.iInteractionListener
 {
     @Override
