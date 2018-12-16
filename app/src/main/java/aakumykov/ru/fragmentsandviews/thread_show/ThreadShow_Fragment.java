@@ -2,10 +2,8 @@ package aakumykov.ru.fragmentsandviews.thread_show;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +14,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import aakumykov.ru.fragmentsandviews.BaseFragment;
 import aakumykov.ru.fragmentsandviews.Constants;
@@ -44,7 +41,19 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     private iDvachPagesInteraction dvachPagesInteraction;
     private TTSReader ttsReader;
+    private Bundle ttsReaderState;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof iDvachPagesInteraction) {
+            dvachPagesInteraction = (iDvachPagesInteraction) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement iDvachPagesInteraction");
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +76,7 @@ public class ThreadShow_Fragment extends BaseFragment {
         dvachService = DvachService.getInstance();
 
         ttsReader = new TTSReader(getContext());
+        ttsReader.init();
 
         Bundle arguments = getArguments();
         if (null != arguments) {
@@ -80,29 +90,20 @@ public class ThreadShow_Fragment extends BaseFragment {
             }
         }
 
+//        if (null != savedInstanceState) {
+//            Bundle ttsState = savedInstanceState.getBundle("TTS_STATE");
+//            if (null != ttsState)
+//                ttsReader.setState(ttsState);
+//        }
+
         return view;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Bundle ttsState = ttsReader.getState();
-        outState.putBundle("TTS_STATE", ttsState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (context instanceof iDvachPagesInteraction) {
-            dvachPagesInteraction = (iDvachPagesInteraction) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement iDvachPagesInteraction");
-        }
-
-        if (null != ttsReader)
-            ttsReader.init();
+//        Bundle ttsState = ttsReader.getState();
+//        outState.putBundle("TTS_STATE", ttsState);
     }
 
     @Override
@@ -110,20 +111,23 @@ public class ThreadShow_Fragment extends BaseFragment {
         super.onDetach();
         dvachPagesInteraction = null;
 
-        // TODO: а не убирать ли его вообще?
-        ttsReader.shutdown();
+        if (null != ttsReader) {
+            ttsReader.shutdown();
+            ttsReader = null;
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ttsReader.shutdown();
+        ttsReaderState = ttsReader.getState();
+        ttsReader.stop();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ttsReader.init();
+        ttsReader.setState(ttsReaderState);
     }
 
     @OnItemClick(R.id.listView)

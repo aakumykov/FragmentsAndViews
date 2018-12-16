@@ -71,10 +71,13 @@ public class TTSReader {
     }
 
     public void setState(Bundle state) {
-        readingPool = state.getStringArrayList("POOL");
-        currentParagraph = state.getInt("PARAGRAPH", 0);
-        currentSentence = state.getInt("SENTENCE", 0);
-        boolean isActive = state.getBoolean("IS_ACTIVRE", false);
+        if (null != state) {
+            readingPool = state.getStringArrayList("POOL");
+            currentParagraph = state.getInt("PARAGRAPH", 0);
+            currentSentence = state.getInt("SENTENCE", 0);
+            boolean isActive = state.getBoolean("IS_ACTIVRE", false);
+            if (isActive) start();
+        }
     }
 
     public void start() {
