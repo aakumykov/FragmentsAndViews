@@ -28,6 +28,7 @@ import aakumykov.ru.fragmentsandviews.models.Thread.Thread;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
 import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
+import aakumykov.ru.fragmentsandviews.utils.TTSReader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
@@ -42,7 +43,7 @@ public class ThreadShow_Fragment extends BaseFragment {
     private List<Post> postsList;
 
     private iDvachPagesInteraction dvachPagesInteraction;
-    private TextToSpeech textToSpeech;
+    private TTSReader ttsReader;
 
 
     @Override
@@ -65,6 +66,8 @@ public class ThreadShow_Fragment extends BaseFragment {
 
         dvachService = DvachService.getInstance();
 
+        ttsReader = new TTSReader(getContext());
+
         Bundle arguments = getArguments();
         if (null != arguments) {
             String boardId = arguments.getString(Constants.BOARD_ID, null);
@@ -81,6 +84,13 @@ public class ThreadShow_Fragment extends BaseFragment {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle ttsState = ttsReader.getState();
+        outState.putBundle("TTS_STATE", ttsState);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -91,7 +101,8 @@ public class ThreadShow_Fragment extends BaseFragment {
                     + " must implement iDvachPagesInteraction");
         }
 
-        initTTS();
+        if (null != ttsReader)
+            ttsReader.init();
     }
 
     @Override
@@ -99,19 +110,20 @@ public class ThreadShow_Fragment extends BaseFragment {
         super.onDetach();
         dvachPagesInteraction = null;
 
-        shutdownTTS();
+        // TODO: а не убирать ли его вообще?
+        ttsReader.shutdown();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        shutdownTTS();
+        ttsReader.shutdown();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initTTS();
+        ttsReader.init();
     }
 
     @OnItemClick(R.id.listView)
@@ -158,11 +170,11 @@ public class ThreadShow_Fragment extends BaseFragment {
 
 
     private void loadThread(String boardId, String threadId) throws Exception {
+
         if (null == boardId && null == threadId)
             throw new IllegalArgumentException("Where is no boardId or threadId arguments.");
 
         showProgressMessage(R.string.THREAD_SHOW_loading_thread);
-        textToSpeech.speak("Загружаю тред", TextToSpeech.QUEUE_FLUSH, null);
 
         dvachService.getThread(boardId, threadId, new iDvachService.ThreadReadCallbacks() {
             @Override
@@ -174,13 +186,13 @@ public class ThreadShow_Fragment extends BaseFragment {
             @Override
             public void onThreadMissing() {
                 showErrorMsg(R.string.THREAD_SHOW_thread_missing);
-                textToSpeech.speak("Тред не найден", TextToSpeech.QUEUE_FLUSH, null);
+                ttsReader.read("Тред не найден");
             }
 
             @Override
             public void onThreadReadFail(String errorMsg) {
                 showErrorMsg(R.string.THREAD_SHOW_error_loading_thread, errorMsg);
-                textToSpeech.speak("Ошибка загрузки треда", TextToSpeech.QUEUE_FLUSH, null);
+                ttsReader.read("Ошибка загрузки треда");
             }
         });
     }
@@ -195,50 +207,23 @@ public class ThreadShow_Fragment extends BaseFragment {
             Thread thread = threadList.get(0);
 
             String title = oneThread.getTitle();
-            textToSpeech.speak(title, TextToSpeech.QUEUE_FLUSH, null);
 
             postsList.addAll(thread.getPosts());
             postsListAdapter.notifyDataSetChanged();
         }
     }
 
-    private void initTTS() {
-        textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-
-                    Locale locale = new Locale("ru");
-
-                    int result = textToSpeech.setLanguage(locale);
-
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Log.e(TAG, "Извините, этот язык не поддерживается");
-                    }
-
-                } else {
-                    Log.e("TTS", "Ошибка первичной настройки движка TTS.");
-                }
-            }
-        });
-    }
-
-    private void shutdownTTS() {
-        textToSpeech.stop();
-        textToSpeech.shutdown();
-    }
-
     private void readThreadWithVoice() {
 
+        ArrayList<String> postsToRead = new ArrayList<>();
+
         for (int i = 0; i< postsList.size(); i++) {
-
             Post post = postsList.get(i);
-
             String comment = DvachUtils.preProcessComment(post.getComment());
-            comment += " ... ";
-
-            textToSpeech.speak(comment, TextToSpeech.QUEUE_ADD, null);
+            postsToRead.add(comment);
         }
+
+        ttsReader.setText(postsToRead);
+        ttsReader.start();
     }
 }
