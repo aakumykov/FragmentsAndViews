@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -190,13 +191,13 @@ public class ThreadShow_Fragment extends BaseFragment {
             @Override
             public void onThreadMissing() {
                 showErrorMsg(R.string.THREAD_SHOW_thread_missing);
-                ttsReader.read("Тред не найден");
+                ttsReader.speak("Тред не найден");
             }
 
             @Override
             public void onThreadReadFail(String errorMsg) {
                 showErrorMsg(R.string.THREAD_SHOW_error_loading_thread, errorMsg);
-                ttsReader.read("Ошибка загрузки треда");
+                ttsReader.speak("Ошибка загрузки треда");
             }
         });
     }

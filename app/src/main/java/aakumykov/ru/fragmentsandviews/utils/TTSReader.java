@@ -3,11 +3,11 @@ package aakumykov.ru.fragmentsandviews.utils;
 import android.content.Context;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 // TODO: прикрутить сюда AAC-жизненный цикл
@@ -18,15 +18,44 @@ public class TTSReader {
     private Context context;
 
     private TextToSpeech textToSpeech;
-    private ArrayList<String> readingPool = new ArrayList<>();
+    private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
+        @Override
+        public void onStart(String utteranceId) {
+
+        }
+
+        @Override
+        public void onDone(String utteranceId) {
+            sentenceNum += 1;
+
+            if (sentenceNum >= currentParagraphSize) {
+                currentParagraphNum += 1;
+                sentenceNum = 0;
+            }
+
+            if (currentParagraphNum <= paragraphsList.size()) {
+                continueRead();
+            }
+        }
+
+        @Override
+        public void onError(String utteranceId) {
+
+        }
+    };
+
+    private ArrayList<String> paragraphsList = new ArrayList<>();
+    private int currentParagraphNum = 0;
+    private int currentParagraphSize = 0;
+    private int sentenceNum = 0;
     private boolean isActive = false;
-    private int currentParagraph = 0;
-    private int currentSentence = 0;
+    private boolean textEnds = false;
 
 
     public TTSReader(Context context) {
         this.context = context;
     }
+
 
 
     public void init() {
@@ -35,6 +64,8 @@ public class TTSReader {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
+
+                    textToSpeech.setOnUtteranceProgressListener(utteranceProgressListener);
 
                     Locale locale = new Locale("ru");
 
@@ -58,25 +89,32 @@ public class TTSReader {
     }
 
     public void setText(ArrayList<String> paragraphsList) {
-        readingPool.addAll(paragraphsList);
+        this.paragraphsList.addAll(paragraphsList);
     }
 
     public Bundle getState() {
         Bundle state = new Bundle();
-        state.putStringArrayList("POOL", readingPool);
-        state.putInt("PARAGRAPH", currentParagraph);
-        state.putInt("SENTENCE", currentSentence);
+        state.putStringArrayList("POOL", paragraphsList);
+        state.putInt("PARAGRAPH", currentParagraphNum);
+        state.putInt("SENTENCE", sentenceNum);
         state.putBoolean("IS_ACTIVE", isActive);
         return state;
     }
 
     public void setState(Bundle state) {
         if (null != state) {
-            readingPool = state.getStringArrayList("POOL");
-            currentParagraph = state.getInt("PARAGRAPH", 0);
-            currentSentence = state.getInt("SENTENCE", 0);
-            boolean isActive = state.getBoolean("IS_ACTIVRE", false);
-            if (isActive) start();
+            Log.d("TTSState", "параграф5: "+state.getInt("PARAGRAPH")+", предложение5: "+state.getInt("SENTENCE"));
+
+            paragraphsList = new ArrayList<>();
+            paragraphsList = state.getStringArrayList("POOL");
+            currentParagraphNum = state.getInt("PARAGRAPH", 0);
+            sentenceNum = state.getInt("SENTENCE", 0);
+            boolean isActive = state.getBoolean("IS_ACTIVE", false);
+            if (isActive) {
+                start(currentParagraphNum, sentenceNum);
+            } else {
+                Log.d(TAG, "not active");
+            }
         }
     }
 
@@ -84,30 +122,13 @@ public class TTSReader {
         start(0,0);
     }
 
-    public void start(int paragraph, int sentence) {
-        currentParagraph = paragraph;
-        currentSentence = sentence;
-        isActive = true;
+    public void start(int paragraphNum, int sentenceNum) {
 
-        for (int i=currentParagraph; i<readingPool.size(); i++) {
+        this.currentParagraphNum = paragraphNum;
+        this.sentenceNum = sentenceNum;
+        this.isActive = true;
 
-            String p = readingPool.get(paragraph);
-
-            if (null != p) {
-                String[] sentences = p.split("\\.\\s+");
-
-                int sCount = sentences.length;
-
-                int startSentence = (currentSentence > 0 && currentSentence < sCount) ? currentSentence : 0;
-
-                for (int j=startSentence; j<sCount; j++) {
-                    String s = sentences[j];
-                    read(s);
-                    currentSentence++;
-                }
-            }
-            currentParagraph++;
-        }
+        continueRead();
     }
 
     public void stop() {
@@ -115,7 +136,23 @@ public class TTSReader {
         isActive = false;
     }
 
-    public void read(String text) {
-        textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
+    public void speak(String text) {
+        // TODO: нужно, чтобы это не мешало основному тексту
+        textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, text);
+    }
+
+
+    private void continueRead() {
+
+        String p = paragraphsList.get(currentParagraphNum);
+        if (null != p) {
+            ArrayList<String> sentencesList = new ArrayList<>(Arrays.asList(p.split("[.!?]+\\s+")));
+
+            currentParagraphSize = sentencesList.size();
+
+            String oneSentence = sentencesList.get(sentenceNum);
+
+            speak(oneSentence);
+        }
     }
 }
