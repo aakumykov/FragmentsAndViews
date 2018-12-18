@@ -240,16 +240,20 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     private void readThreadWithVoice() {
 
-        ArrayList<String> postsToRead = new ArrayList<>();
+        if (ttsReader.isActive()) {
 
-        for (int i = 0; i< postsList.size(); i++) {
-            Post post = postsList.get(i);
-            String comment = DvachUtils.preProcessComment(post.getComment());
-            postsToRead.add(comment);
+        } else {
+            ArrayList<String> postsToRead = new ArrayList<>();
+
+            for (int i = 0; i < postsList.size(); i++) {
+                Post post = postsList.get(i);
+                String comment = DvachUtils.preProcessComment(post.getComment());
+                postsToRead.add(comment);
+            }
+
+            ttsReader.setText(postsToRead);
+            ttsReader.start();
         }
-
-        ttsReader.setText(postsToRead);
-        ttsReader.start();
     }
 
 

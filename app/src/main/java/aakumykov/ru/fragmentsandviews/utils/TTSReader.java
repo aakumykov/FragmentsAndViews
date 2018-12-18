@@ -150,6 +150,10 @@ public class TTSReader {
         textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, text);
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     // Внутренние методы
     private void continueRead() {
 
