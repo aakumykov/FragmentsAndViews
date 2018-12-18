@@ -15,6 +15,7 @@ public class TTSReader {
 
     public interface ReadingCallbacks {
         void onReadingStart();
+        void onReadingPause();
         void onReadingStop();
         void onReadingError();
     }
@@ -32,15 +33,15 @@ public class TTSReader {
 
         @Override
         public void onDone(String utteranceId) {
-            sentenceNum += 1;
+            currentSentenceNum += 1;
 
-            if (sentenceNum >= currentParagraphSize) {
+            if (currentSentenceNum >= currentParagraphSize) {
                 currentParagraphNum += 1;
-                sentenceNum = 0;
+                currentSentenceNum = 0;
             }
 
             if (currentParagraphNum <= paragraphsList.size()) {
-                continueRead();
+                speakNext();
             }
         }
 
@@ -54,7 +55,7 @@ public class TTSReader {
     private ArrayList<String> paragraphsList = new ArrayList<>();
     private int currentParagraphNum = 0;
     private int currentParagraphSize = 0;
-    private int sentenceNum = 0;
+    private int currentSentenceNum = 0;
     private boolean isActive = false;
     private boolean textEnds = false;
 
@@ -96,15 +97,17 @@ public class TTSReader {
         textToSpeech.shutdown();
     }
 
+
     public void setText(ArrayList<String> paragraphsList) {
         this.paragraphsList.addAll(paragraphsList);
     }
+
 
     public Bundle getState() {
         Bundle state = new Bundle();
         state.putStringArrayList("POOL", paragraphsList);
         state.putInt("PARAGRAPH", currentParagraphNum);
-        state.putInt("SENTENCE", sentenceNum);
+        state.putInt("SENTENCE", currentSentenceNum);
         state.putBoolean("IS_ACTIVE", isActive);
         return state;
     }
@@ -116,15 +119,16 @@ public class TTSReader {
             paragraphsList = new ArrayList<>();
             paragraphsList = state.getStringArrayList("POOL");
             currentParagraphNum = state.getInt("PARAGRAPH", 0);
-            sentenceNum = state.getInt("SENTENCE", 0);
+            currentSentenceNum = state.getInt("SENTENCE", 0);
             boolean isActive = state.getBoolean("IS_ACTIVE", false);
             if (isActive) {
-                start(currentParagraphNum, sentenceNum);
+                start(currentParagraphNum, currentSentenceNum);
             } else {
                 Log.d(TAG, "not active");
             }
         }
     }
+
 
     public void start() {
         start(0,0);
@@ -133,16 +137,10 @@ public class TTSReader {
     public void start(int paragraphNum, int sentenceNum) {
 
         this.currentParagraphNum = paragraphNum;
-        this.sentenceNum = sentenceNum;
+        this.currentSentenceNum = sentenceNum;
         this.isActive = true;
 
-        continueRead();
-    }
-
-    public void stop() {
-        textToSpeech.stop();
-        isActive = false;
-        readingCallbacks.onReadingStop();
+        speakNext();
     }
 
     public void speak(String text) {
@@ -150,12 +148,35 @@ public class TTSReader {
         textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, text);
     }
 
+
+    public void stop() {
+        paragraphsList.clear();
+        isActive = false;
+        readingCallbacks.onReadingStop();
+    }
+
+    public void resume() {
+        start(this.currentParagraphNum, this.currentSentenceNum);
+    }
+
+    public void pause() {
+        textToSpeech.stop();
+        isActive = false;
+        readingCallbacks.onReadingPause();
+    }
+
+
     public boolean isActive() {
         return isActive;
     }
 
+    public boolean hasText() {
+        return (null != paragraphsList && paragraphsList.size() > 0);
+    }
+
+
     // Внутренние методы
-    private void continueRead() {
+    private void speakNext() {
 
         String p = paragraphsList.get(currentParagraphNum);
         if (null != p) {
@@ -163,7 +184,7 @@ public class TTSReader {
 
             currentParagraphSize = sentencesList.size();
 
-            String oneSentence = sentencesList.get(sentenceNum);
+            String oneSentence = sentencesList.get(currentSentenceNum);
 
             speak(oneSentence);
         }

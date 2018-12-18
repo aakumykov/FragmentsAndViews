@@ -1,5 +1,7 @@
 package aakumykov.ru.fragmentsandviews.thread_show;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -67,6 +69,7 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
@@ -76,6 +79,7 @@ public class ThreadShow_Fragment extends BaseFragment {
         postsList = new ArrayList<>();
         postsListAdapter = new PostsList_Adapter(getContext(), R.layout.thread_show_item, postsList);
         listView.setAdapter(postsListAdapter);
+        listView.setClickable(false);
 
         dvachService = DvachService.getInstance();
 
@@ -83,6 +87,11 @@ public class ThreadShow_Fragment extends BaseFragment {
             @Override
             public void onReadingStart() {
                 setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PAUSE);
+            }
+
+            @Override
+            public void onReadingPause() {
+                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PLAY);
             }
 
             @Override
@@ -140,14 +149,14 @@ public class ThreadShow_Fragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        ttsReaderState = ttsReader.getState();
-        ttsReader.stop();
+//        ttsReaderState = ttsReader.getState();
+//        ttsReader.stop();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ttsReader.setState(ttsReaderState);
+//        ttsReader.setState(ttsReaderState);
     }
 
     @OnItemClick(R.id.listView)
@@ -174,13 +183,14 @@ public class ThreadShow_Fragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionSpeak:
-                readThreadWithVoice();
+                toggleReadingVithVoice();
                 break;
             default:
                 super.onOptionsItemSelected(item);
         }
         return true;
     }
+
 
     @Override
     public void onBringToFront() {
@@ -238,22 +248,35 @@ public class ThreadShow_Fragment extends BaseFragment {
         }
     }
 
-    private void readThreadWithVoice() {
+    private void toggleReadingVithVoice() {
 
-        if (ttsReader.isActive()) {
-
-        } else {
-            ArrayList<String> postsToRead = new ArrayList<>();
-
-            for (int i = 0; i < postsList.size(); i++) {
-                Post post = postsList.get(i);
-                String comment = DvachUtils.preProcessComment(post.getComment());
-                postsToRead.add(comment);
+        if (ttsReader.hasText())
+        {
+            if (ttsReader.isActive())
+            {
+                ttsReader.pause();
             }
-
+            else
+            {
+                ttsReader.resume();
+            }
+        }
+        else
+        {
+            ArrayList<String> postsToRead = getPostsToRead();
             ttsReader.setText(postsToRead);
             ttsReader.start();
         }
+    }
+
+    private ArrayList<String> getPostsToRead() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < postsList.size(); i++) {
+            Post post = postsList.get(i);
+            String comment = DvachUtils.preProcessComment(post.getComment());
+            list.add(comment);
+        }
+        return list;
     }
 
 
@@ -284,6 +307,9 @@ public class ThreadShow_Fragment extends BaseFragment {
             MenuItem menuItem = menu.findItem(R.id.actionSpeak);
             Drawable newIcon = getResources().getDrawable(iconResourceId);
             menuItem.setIcon(newIcon);
+
+            Activity activity = getActivity();
+            if (null != activity) activity.invalidateOptionsMenu();
         }
     }
 }
