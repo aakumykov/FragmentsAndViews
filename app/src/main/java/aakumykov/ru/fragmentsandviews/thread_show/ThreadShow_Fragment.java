@@ -1,10 +1,10 @@
 package aakumykov.ru.fragmentsandviews.thread_show;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +36,9 @@ public class ThreadShow_Fragment extends BaseFragment {
     @BindView(R.id.listView) ListView listView;
 
     public static final String TAG = "ThreadShow_Fragment";
+
+    private Menu menu;
+
     private iDvachService dvachService;
     private PostsList_Adapter postsListAdapter;
     private List<Post> postsList;
@@ -76,7 +79,23 @@ public class ThreadShow_Fragment extends BaseFragment {
 
         dvachService = DvachService.getInstance();
 
-        ttsReader = new TTSReader(getContext());
+        ttsReader = new TTSReader(getContext(), new TTSReader.ReadingCallbacks() {
+            @Override
+            public void onReadingStart() {
+                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PAUSE);
+            }
+
+            @Override
+            public void onReadingStop() {
+                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PLAY);
+            }
+
+            @Override
+            public void onReadingError() {
+                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_ERROR);
+            }
+        });
+
         ttsReader.init();
 
         Bundle arguments = getArguments();
@@ -148,12 +167,13 @@ public class ThreadShow_Fragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.thread_show_menu, menu);
+        this.menu = menu;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.actionReadWithVoice:
+            case R.id.actionSpeak:
                 readThreadWithVoice();
                 break;
             default:
@@ -230,5 +250,36 @@ public class ThreadShow_Fragment extends BaseFragment {
 
         ttsReader.setText(postsToRead);
         ttsReader.start();
+    }
+
+
+    private enum SpeakIconMode {
+        SPEAK_ICON_MODE_PLAY,
+        SPEAK_ICON_MODE_PAUSE,
+        SPEAK_ICON_MODE_ERROR
+    }
+
+    private void setSpeakIconMode(SpeakIconMode mode) {
+        switch (mode) {
+            case SPEAK_ICON_MODE_PLAY:
+                setSpeakIcon(R.drawable.ic_play);
+                break;
+
+            case SPEAK_ICON_MODE_PAUSE:
+                setSpeakIcon(R.drawable.ic_pause);
+                break;
+
+            case SPEAK_ICON_MODE_ERROR:
+                showToast(R.string.MESSAGE_not_implemented_yet);
+                break;
+        }
+    }
+
+    private void setSpeakIcon(int iconResourceId) {
+        if (null != menu) {
+            MenuItem menuItem = menu.findItem(R.id.actionSpeak);
+            Drawable newIcon = getResources().getDrawable(iconResourceId);
+            menuItem.setIcon(newIcon);
+        }
     }
 }

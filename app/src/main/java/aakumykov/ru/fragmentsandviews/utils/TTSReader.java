@@ -13,6 +13,12 @@ import java.util.Locale;
 // TODO: прикрутить сюда AAC-жизненный цикл
 public class TTSReader {
 
+    public interface ReadingCallbacks {
+        void onReadingStart();
+        void onReadingStop();
+        void onReadingError();
+    }
+
     private static final String TAG = "TTSReader";
 
     private Context context;
@@ -21,7 +27,7 @@ public class TTSReader {
     private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
         @Override
         public void onStart(String utteranceId) {
-
+            readingCallbacks.onReadingStart();
         }
 
         @Override
@@ -40,9 +46,10 @@ public class TTSReader {
 
         @Override
         public void onError(String utteranceId) {
-
+            readingCallbacks.onReadingError();
         }
     };
+    private ReadingCallbacks readingCallbacks;
 
     private ArrayList<String> paragraphsList = new ArrayList<>();
     private int currentParagraphNum = 0;
@@ -51,13 +58,13 @@ public class TTSReader {
     private boolean isActive = false;
     private boolean textEnds = false;
 
-
-    public TTSReader(Context context) {
+    // Конструктор
+    public TTSReader(Context context, ReadingCallbacks readingCallbacks) {
         this.context = context;
+        this.readingCallbacks = readingCallbacks;
     }
 
-
-
+    // Внешние методы
     public void init() {
 
         textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
@@ -71,13 +78,14 @@ public class TTSReader {
 
                     int result = textToSpeech.setLanguage(locale);
 
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e(TAG, "Извините, этот язык не поддерживается");
+                        readingCallbacks.onReadingError();
                     }
 
                 } else {
                     Log.e("TTS", "Ошибка первичной настройки движка TTS.");
+                    readingCallbacks.onReadingError();
                 }
             }
         });
@@ -134,6 +142,7 @@ public class TTSReader {
     public void stop() {
         textToSpeech.stop();
         isActive = false;
+        readingCallbacks.onReadingStop();
     }
 
     public void speak(String text) {
@@ -141,7 +150,7 @@ public class TTSReader {
         textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, text);
     }
 
-
+    // Внутренние методы
     private void continueRead() {
 
         String p = paragraphsList.get(currentParagraphNum);
