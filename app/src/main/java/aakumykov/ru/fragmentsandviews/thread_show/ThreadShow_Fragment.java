@@ -58,12 +58,6 @@ public class ThreadShow_Fragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -72,6 +66,8 @@ public class ThreadShow_Fragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         getPage().activateUpButton();
+
+        setHasOptionsMenu(true);
 
         postsList = new ArrayList<>();
         postsListAdapter = new PostsList_Adapter(getContext(), R.layout.thread_show_item, postsList);
@@ -116,46 +112,47 @@ public class ThreadShow_Fragment extends BaseFragment {
             }
         }
 
-//        if (null != savedInstanceState) {
-//            Bundle ttsState = savedInstanceState.getBundle("TTS_STATE");
-//            if (null != ttsState)
-//                ttsReader.setState(ttsState);
-//        }
-
         return view;
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-//        Bundle ttsState = ttsReader.getState();
-//        outState.putBundle("TTS_STATE", ttsState);
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        if (null != ttsReader) {
+//            ttsReader.resume();
+//            invalidateOptionsMenu();
+//        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+//        if (null != ttsReader) {
+//            ttsReader.pause();
+//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         dvachPagesInteraction = null;
-        ttsReader = null;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         if (null != ttsReader) {
-            ttsReader.init();
+            ttsReader.shutdown();
+            ttsReader = null;
             invalidateOptionsMenu();
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if (null != ttsReader) {
-            ttsReader.shutdown();
-        }
-    }
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
@@ -163,11 +160,6 @@ public class ThreadShow_Fragment extends BaseFragment {
         String postText = DvachUtils.preProcessComment(post.getComment());
 
     }
-//
-//    @OnItemLongClick(R.id.listView)
-//    boolean onItemLongClicked(int position) {
-//        return true;
-//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

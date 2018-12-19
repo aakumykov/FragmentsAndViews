@@ -63,10 +63,11 @@ public class TTSReader {
     public TTSReader(Context context, ReadingCallbacks readingCallbacks) {
         this.context = context;
         this.readingCallbacks = readingCallbacks;
+        init();
     }
 
     // Внешние методы
-    public void init() {
+    private void init() {
 
         textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
@@ -95,7 +96,6 @@ public class TTSReader {
     public void shutdown() {
         textToSpeech.stop();
         textToSpeech.shutdown();
-        stop();
     }
 
 
@@ -136,12 +136,12 @@ public class TTSReader {
     }
 
     public void start(int paragraphNum, int sentenceNum) {
-
-        this.currentParagraphNum = paragraphNum;
-        this.currentSentenceNum = sentenceNum;
-        this.isActive = true;
-
-        speakNext();
+        if (hasText()) {
+            this.currentParagraphNum = paragraphNum;
+            this.currentSentenceNum = sentenceNum;
+            this.isActive = true;
+            speakNext();
+        }
     }
 
     public void speak(String text) {
@@ -157,7 +157,9 @@ public class TTSReader {
     }
 
     public void resume() {
-        start(this.currentParagraphNum, this.currentSentenceNum);
+        if (hasText()) {
+            start(this.currentParagraphNum, this.currentSentenceNum);
+        }
     }
 
     public void pause() {
