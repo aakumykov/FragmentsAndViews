@@ -11,6 +11,7 @@ public class DvachUtils {
         text = (text + "").trim();
         text = clearThreadComment(text);
 
+        text = processEscapes(text);
         text = specialchars2html(text); // должна идти пред br2nl (или запихать её внутрь?)
         text = br2nl(text);
 
@@ -20,6 +21,13 @@ public class DvachUtils {
 
     private static String clearThreadComment(String rawComment) {
         return rawComment.replaceFirst("<a[^>]*>.*</a>(<br>)*", "");
+    }
+
+    private static String processEscapes(String inputString) {
+        inputString = inputString.replaceAll("(\\\\r)+", "");
+        inputString = inputString.replaceAll("(\\\\t)+", " ");
+        inputString = inputString.replaceAll("(\\\\n)+", "\n");
+        return inputString;
     }
 
     private static String specialchars2html(String inputString) {
