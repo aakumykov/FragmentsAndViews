@@ -9,27 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/playButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Играть"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/pauseButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Пауза"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Стоп"
-        android:textAllCaps="false" />
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

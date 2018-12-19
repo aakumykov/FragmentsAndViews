@@ -40,13 +40,7 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     @BindView(R.id.listView) ListView listView;
 
-    @BindView(R.id.playButton) Button playButton;
-    @BindView(R.id.pauseButton) Button pauseButton;
-    @BindView(R.id.stopButton) Button stopButton;
-
     public static final String TAG = "ThreadShow_Fragment";
-
-    private Menu menu;
 
     private iDvachService dvachService;
     private PostsList_Adapter postsListAdapter;
@@ -94,22 +88,18 @@ public class ThreadShow_Fragment extends BaseFragment {
         ttsReader = new TTSReader(getContext(), new TTSReader.ReadingCallbacks() {
             @Override
             public void onReadingStart() {
-                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PAUSE);
             }
 
             @Override
             public void onReadingPause() {
-                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PLAY);
             }
 
             @Override
             public void onReadingStop() {
-                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_PLAY);
             }
 
             @Override
             public void onReadingError() {
-                setSpeakIconMode(SpeakIconMode.SPEAK_ICON_MODE_ERROR);
             }
         });
 
@@ -179,12 +169,21 @@ public class ThreadShow_Fragment extends BaseFragment {
 //        return true;
 //    }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
         inflater.inflate(R.menu.thread_show_menu, menu);
-        this.menu = menu;
+
+        MenuItem menuItem = menu.findItem(R.id.actionSpeak);
+
+        if (null != ttsReader && ttsReader.hasText()) {
+            if (ttsReader.isActive()) {
+                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_pause));
+            } else {
+                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_play));
+            }
+        }
     }
 
     @Override
@@ -263,10 +262,12 @@ public class ThreadShow_Fragment extends BaseFragment {
             if (ttsReader.isActive())
             {
                 ttsReader.pause();
+                invalidateOptionsMenu();
             }
             else
             {
                 ttsReader.resume();
+                invalidateOptionsMenu();
             }
         }
         else
@@ -274,6 +275,7 @@ public class ThreadShow_Fragment extends BaseFragment {
             ArrayList<String> postsToRead = getPostsToRead();
             ttsReader.setText(postsToRead);
             ttsReader.start();
+            invalidateOptionsMenu();
         }
     }
 
@@ -287,52 +289,8 @@ public class ThreadShow_Fragment extends BaseFragment {
         return list;
     }
 
-
-    private enum SpeakIconMode {
-        SPEAK_ICON_MODE_PLAY,
-        SPEAK_ICON_MODE_PAUSE,
-        SPEAK_ICON_MODE_ERROR
+    private void invalidateOptionsMenu() {
+        Activity activity = getActivity();
+        if (null != activity) activity.invalidateOptionsMenu();
     }
-
-    private void setSpeakIconMode(SpeakIconMode mode) {
-        switch (mode) {
-            case SPEAK_ICON_MODE_PLAY:
-                setSpeakIcon(R.drawable.ic_play);
-                break;
-
-            case SPEAK_ICON_MODE_PAUSE:
-                setSpeakIcon(R.drawable.ic_pause);
-                break;
-
-            case SPEAK_ICON_MODE_ERROR:
-                showToast(R.string.MESSAGE_not_implemented_yet);
-                break;
-        }
-    }
-
-    private void setSpeakIcon(int iconResourceId) {
-        if (null != menu) {
-            MenuItem menuItem = menu.findItem(R.id.actionSpeak);
-            Drawable newIcon = getResources().getDrawable(iconResourceId);
-            menuItem.setIcon(newIcon);
-
-            Activity activity = getActivity();
-            if (null != activity) activity.invalidateOptionsMenu();
-        }
-    }
-
-
-    @OnClick(R.id.playButton)
-    void playButtonClicked() {
-        setSpeakIcon(R.drawable.ic_play);
-    }
-    @OnClick(R.id.pauseButton)
-    void pauseButtonClicked() {
-        setSpeakIcon(R.drawable.ic_pause);
-    }
-    @OnClick(R.id.stopButton)
-    void stopButtonClicked() {
-        setSpeakIcon(R.drawable.ic_stop);
-    }
-
 }
