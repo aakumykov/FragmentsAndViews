@@ -1,9 +1,7 @@
 package aakumykov.ru.fragmentsandviews.thread_show;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,9 +29,7 @@ import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
 import aakumykov.ru.fragmentsandviews.utils.TTSReader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnItemClick;
-import butterknife.Optional;
 
 public class ThreadShow_Fragment extends BaseFragment {
 
@@ -48,7 +43,7 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     private iDvachPagesInteraction dvachPagesInteraction;
     private TTSReader ttsReader;
-    private Bundle ttsReaderState;
+    private int currentCommentNum = 0;
 
 
     @Override
@@ -88,6 +83,12 @@ public class ThreadShow_Fragment extends BaseFragment {
         ttsReader = new TTSReader(getContext(), new TTSReader.ReadingCallbacks() {
             @Override
             public void onReadingStart() {
+                int commentNum = ttsReader.getCurrentParagraphNum();
+                if (currentCommentNum != commentNum) {
+                    listView.smoothScrollToPosition(commentNum);
+                    currentCommentNum = commentNum;
+                }
+
             }
 
             @Override
@@ -102,8 +103,6 @@ public class ThreadShow_Fragment extends BaseFragment {
             public void onReadingError() {
             }
         });
-
-        ttsReader.init();
 
         Bundle arguments = getArguments();
         if (null != arguments) {
@@ -137,24 +136,25 @@ public class ThreadShow_Fragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         dvachPagesInteraction = null;
+        ttsReader = null;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         if (null != ttsReader) {
-            ttsReader.shutdown();
-            ttsReader = null;
+            ttsReader.init();
+            invalidateOptionsMenu();
         }
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-//        ttsReaderState = ttsReader.getState();
-//        ttsReader.stop();
-    }
+    public void onStop() {
+        super.onStop();
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        ttsReader.setState(ttsReaderState);
+        if (null != ttsReader) {
+            ttsReader.shutdown();
+        }
     }
 
     @OnItemClick(R.id.listView)

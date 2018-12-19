@@ -95,6 +95,7 @@ public class TTSReader {
     public void shutdown() {
         textToSpeech.stop();
         textToSpeech.shutdown();
+        stop();
     }
 
 
@@ -172,6 +173,11 @@ public class TTSReader {
 
     public boolean hasText() {
         return (null != paragraphsList && paragraphsList.size() > 0);
+    }
+
+
+    public int getCurrentParagraphNum() {
+        return currentParagraphNum;
     }
 
 
