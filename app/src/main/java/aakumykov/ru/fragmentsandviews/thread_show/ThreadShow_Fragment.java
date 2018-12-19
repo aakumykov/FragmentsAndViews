@@ -324,15 +324,16 @@ public class ThreadShow_Fragment extends BaseFragment {
 
     @OnClick(R.id.playButton)
     void playButtonClicked() {
-        setSpeakIcon(R.drawable.ic_play);
+//        setSpeakIcon(R.drawable.ic_play);
+        getPage().changeMenuIcon(R.id.actionSpeak, R.drawable.ic_play);
     }
     @OnClick(R.id.pauseButton)
     void pauseButtonClicked() {
-        setSpeakIcon(R.drawable.ic_pause);
+//        setSpeakIcon(R.drawable.ic_pause);
     }
     @OnClick(R.id.stopButton)
     void stopButtonClicked() {
-        setSpeakIcon(R.drawable.ic_stop);
+//        setSpeakIcon(R.drawable.ic_stop);
     }
 
 }

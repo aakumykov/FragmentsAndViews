@@ -1,20 +1,25 @@
 package aakumykov.ru.fragmentsandviews;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import aakumykov.ru.fragmentsandviews.interfaces.iInformer;
 import aakumykov.ru.fragmentsandviews.interfaces.iPage;
-import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 
 @SuppressLint("Registered")
 public class BaseView extends AppCompatActivity implements
         iPage
 {
+    private Menu menu;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
 
     // реализация интерфейса Страница
     @Override
@@ -42,6 +47,17 @@ public class BaseView extends AppCompatActivity implements
         ActionBar actionBar = getSupportActionBar();
         if (null != actionBar)
             actionBar.setDisplayHomeAsUpEnabled(false);
+    }
+
+    @Override
+    public void changeMenuIcon(int menuId, int iconDrawableId) {
+        if (null != menu) {
+            MenuItem menuItem = menu.findItem(menuId);
+            Drawable newIcon = getResources().getDrawable(iconDrawableId);
+
+            menuItem.setIcon(newIcon);
+            invalidateOptionsMenu();
+        }
     }
 
     //    // реализация интерфейса Информатор
