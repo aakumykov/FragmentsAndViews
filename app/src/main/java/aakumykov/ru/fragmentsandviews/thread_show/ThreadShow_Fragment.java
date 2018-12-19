@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -31,11 +32,17 @@ import aakumykov.ru.fragmentsandviews.utils.DvachUtils;
 import aakumykov.ru.fragmentsandviews.utils.TTSReader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.Optional;
 
 public class ThreadShow_Fragment extends BaseFragment {
 
     @BindView(R.id.listView) ListView listView;
+
+    @BindView(R.id.playButton) Button playButton;
+    @BindView(R.id.pauseButton) Button pauseButton;
+    @BindView(R.id.stopButton) Button stopButton;
 
     public static final String TAG = "ThreadShow_Fragment";
 
@@ -48,6 +55,7 @@ public class ThreadShow_Fragment extends BaseFragment {
     private iDvachPagesInteraction dvachPagesInteraction;
     private TTSReader ttsReader;
     private Bundle ttsReaderState;
+
 
     @Override
     public void onAttach(Context context) {
@@ -71,7 +79,7 @@ public class ThreadShow_Fragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.list_fragment, container, false);
+        View view = inflater.inflate(R.layout.thread_show_fragment, container, false);
         ButterKnife.bind(this, view);
 
         getPage().activateUpButton();
@@ -312,4 +320,19 @@ public class ThreadShow_Fragment extends BaseFragment {
             if (null != activity) activity.invalidateOptionsMenu();
         }
     }
+
+
+    @OnClick(R.id.playButton)
+    void playButtonClicked() {
+        setSpeakIcon(R.drawable.ic_play);
+    }
+    @OnClick(R.id.pauseButton)
+    void pauseButtonClicked() {
+        setSpeakIcon(R.drawable.ic_pause);
+    }
+    @OnClick(R.id.stopButton)
+    void stopButtonClicked() {
+        setSpeakIcon(R.drawable.ic_stop);
+    }
+
 }
