@@ -7,6 +7,4 @@ public interface iPage {
 
     void activateUpButton();
     void disactivateUpButton();
-
-    void changeMenuIcon(int menuId, int iconDrawableId);
 }
