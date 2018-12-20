@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,12 +30,14 @@ public class FragmentsHoldingPage extends BaseView implements
         setContentView(R.layout.single_page_activity);
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.addOnBackStackChangedListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        fragmentManager.addOnBackStackChangedListener(this);
+
         if (firstRun) {
             firstRun = false;
             showBoardsOnDvach();
@@ -70,8 +73,11 @@ public class FragmentsHoldingPage extends BaseView implements
     public void onBackStackChanged() {
         BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
 
-        if (null != currentFragment)
+        if (null != currentFragment) {
             currentFragment.onBringToFront();
+        } else {
+            Log.d("onBackStackChanged", "null == currentFragment");
+        }
     }
 
 
