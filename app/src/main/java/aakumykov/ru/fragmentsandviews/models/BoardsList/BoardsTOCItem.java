@@ -2,6 +2,8 @@ package aakumykov.ru.fragmentsandviews.models.BoardsList;
 
 public class BoardsTOCItem {
 
+    public static final String USER_CATEGORY_NAME = "Пользовательские";
+
     private String id;
     private String name;
     private String category;
@@ -29,7 +31,12 @@ public class BoardsTOCItem {
 
     BoardsTOCItem(){}
 
+    // Методы, добавленные вручную
+    public boolean isUserCategory() {
+        return category.equals(USER_CATEGORY_NAME);
+    }
 
+    // Сгенерированные геттеры-сеттеры
     public String getId() {
         return id;
     }

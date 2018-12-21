@@ -64,11 +64,15 @@ public abstract class BaseFragment extends Fragment implements iBaseFragment {
         View view = getView();
         if (null != view) {
             String text = view.getResources().getString(messageId);
-
-            Toast toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            showToast(text);
         }
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override
