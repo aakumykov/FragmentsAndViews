@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="aakumykov.ru.fragmentsandviews">
+    package="ru.aakumykov.dvachreader">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TEMPLATE.Page__View" />
-        <activity android:name=".TEMPLATE.List_View" />
+        <activity android:name="ru.aakumykov.dvachreader.TEMPLATE.Page__View" />
+        <activity android:name="ru.aakumykov.dvachreader.TEMPLATE.List_View" />
 
-        <activity android:name=".FragmentsHoldingPage">
+        <activity android:name="ru.aakumykov.dvachreader.FragmentsHoldingPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

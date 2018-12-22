@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="aakumykov.ru.fragmentsandviews.TEMPLATE.List_Fragment"
+        android:name="ru.aakumykov.dvachreader.TEMPLATE.List_Fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
