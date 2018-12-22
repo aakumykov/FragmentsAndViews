@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "aakumykov.ru.fragmentsandviews"
+        applicationId "ru.aakumykov.dvachreader"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -49,4 +49,8 @@ dependencies {
 
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.11.3'
+
+    // reCaptcha
+    implementation 'com.google.android.gms:play-services-safetynet:16.0.0'
+
 }

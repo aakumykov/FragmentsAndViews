@@ -14,7 +14,6 @@ import java.util.List;
 
 import ru.aakumykov.dvachreader.BaseFragment;
 import ru.aakumykov.dvachreader.Constants;
-import ru.aakumykov.dvachreader.R;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
 import ru.aakumykov.dvachreader.models.Board.Board;
 import ru.aakumykov.dvachreader.models.Board.Thread;
@@ -24,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
+import ru.aakumykov.fragmentsandviews.R;
 
 public class ThreadsList_Fragment extends BaseFragment {
 

@@ -13,6 +13,7 @@ import ru.aakumykov.dvachreader.boards_list.BoardsList_Fragment;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
 import ru.aakumykov.dvachreader.thread_show.ThreadShow_Fragment;
 import ru.aakumykov.dvachreader.threads_list.ThreadsList_Fragment;
+import ru.aakumykov.fragmentsandviews.R;
 
 public class FragmentsHoldingPage extends BaseView implements
         iDvachPagesInteraction,

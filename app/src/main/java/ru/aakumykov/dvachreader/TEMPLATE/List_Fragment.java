@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.aakumykov.dvachreader.BaseFragment;
-import ru.aakumykov.dvachreader.R;
+import ru.aakumykov.fragmentsandviews.R;
 import ru.aakumykov.dvachreader.models.Element;
 import butterknife.BindView;
 import butterknife.ButterKnife;

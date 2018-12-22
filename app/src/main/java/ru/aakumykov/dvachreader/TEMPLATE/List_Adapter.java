@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ru.aakumykov.dvachreader.R;
 import ru.aakumykov.dvachreader.models.Element;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.aakumykov.fragmentsandviews.R;
 
 public class List_Adapter extends ArrayAdapter<Element> {
 

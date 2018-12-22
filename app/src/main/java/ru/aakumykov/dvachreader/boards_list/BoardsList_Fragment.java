@@ -1,6 +1,7 @@
 package ru.aakumykov.dvachreader.boards_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,15 +20,16 @@ import java.util.List;
 import java.util.Map;
 
 import ru.aakumykov.dvachreader.BaseFragment;
-import ru.aakumykov.dvachreader.R;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
 import ru.aakumykov.dvachreader.models.BoardsList.BoardsTOCItem;
+import ru.aakumykov.dvachreader.re_captcha.ReCaptchaTest;
 import ru.aakumykov.dvachreader.services.DvachService;
 import ru.aakumykov.dvachreader.services.iDvachService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
+import ru.aakumykov.fragmentsandviews.R;
 
 public class BoardsList_Fragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener
@@ -107,7 +109,8 @@ public class BoardsList_Fragment extends BaseFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionRecaptcha:
-//                Intent intent = new Intent(this, Recaptcha)
+                Intent intent = new Intent(getContext(), ReCaptchaTest.class);
+                startActivity(intent);
                 break;
             default:
                 super.onOptionsItemSelected(item);

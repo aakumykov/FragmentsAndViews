@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ru.aakumykov.dvachreader.R;
+import ru.aakumykov.fragmentsandviews.R;
 import ru.aakumykov.dvachreader.models.Thread.Post;
 import ru.aakumykov.dvachreader.utils.DvachUtils;
 import butterknife.BindView;

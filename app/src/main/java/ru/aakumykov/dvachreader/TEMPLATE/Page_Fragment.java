@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import ru.aakumykov.dvachreader.BaseFragment;
-import ru.aakumykov.dvachreader.R;
+import ru.aakumykov.fragmentsandviews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

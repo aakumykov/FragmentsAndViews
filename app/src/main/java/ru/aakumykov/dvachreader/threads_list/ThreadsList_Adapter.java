@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ru.aakumykov.dvachreader.R;
 import ru.aakumykov.dvachreader.models.Board.Thread;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.aakumykov.fragmentsandviews.R;
 
 public class ThreadsList_Adapter extends ArrayAdapter<Thread> {
 

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import ru.aakumykov.dvachreader.interfaces.iPage;
 import ru.aakumykov.dvachreader.utils.MyUtils;
+import ru.aakumykov.fragmentsandviews.R;
 
 public abstract class BaseFragment extends Fragment implements iBaseFragment {
 

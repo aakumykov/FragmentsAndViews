@@ -3,7 +3,7 @@ package ru.aakumykov.dvachreader.TEMPLATE;
 import android.os.Bundle;
 
 import ru.aakumykov.dvachreader.BaseView;
-import ru.aakumykov.dvachreader.R;
+import ru.aakumykov.fragmentsandviews.R;
 
 public class Page__View extends BaseView implements
         Page_Fragment.iInteractionListener
