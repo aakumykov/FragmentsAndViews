@@ -14,14 +14,14 @@
         <activity android:name=".TEMPLATE.Page__View" />
         <activity android:name=".TEMPLATE.List_View" />
         <activity android:name=".FragmentsHoldingPage">
-
-        </activity>
-        <activity android:name=".ReCaptchaTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ReCaptchaTest">
+
         </activity>
     </application>
 
