@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -62,7 +65,7 @@ public class BoardsList_Fragment extends BaseFragment implements
         View view = inflater.inflate(R.layout.list_fragment, container, false);
         ButterKnife.bind(this, view);
 
-//        getPage().disactivateUpButton();
+        setHasOptionsMenu(true);
 
         dvachService = DvachService.getInstance();
         list = new ArrayList<>();
@@ -91,6 +94,25 @@ public class BoardsList_Fragment extends BaseFragment implements
     public void onDetach() {
         super.onDetach();
         dvachPagesInteraction = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.boards_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionRecaptcha:
+//                Intent intent = new Intent(this, Recaptcha)
+                break;
+            default:
+                super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     @Override

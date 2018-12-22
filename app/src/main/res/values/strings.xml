@@ -19,4 +19,5 @@
     <string name="THREAD_SHOW_thread_missing">Треда не существует</string>
     <string name="MENU_read_with_voice">Прочитать голосом</string>
     <string name="MESSAGE_not_implemented_yet">Ещё не реализовано</string>
+    <string name="MENU_captcha">Проверочная картинка</string>
 </resources>
