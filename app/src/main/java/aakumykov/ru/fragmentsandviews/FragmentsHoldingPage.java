@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import aakumykov.ru.fragmentsandviews.boards_list.BoardsList_Fragment;
@@ -19,18 +22,22 @@ public class FragmentsHoldingPage extends BaseView implements
     private FragmentManager fragmentManager;
     private boolean firstRun = true;
 
+
+    // Системные методы
     @SuppressLint("CommitTransaction") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_page_activity);
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.addOnBackStackChangedListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        fragmentManager.addOnBackStackChangedListener(this);
+
         if (firstRun) {
             firstRun = false;
             showBoardsOnDvach();
@@ -38,25 +45,43 @@ public class FragmentsHoldingPage extends BaseView implements
     }
 
     @Override
-    public void onBackStackChanged() {
-        BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
-        if (null != currentFragment)
-            currentFragment.onBringToFront();
+    protected void onStop() {
+        super.onStop();
+        fragmentManager.removeOnBackStackChangedListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case android.R.id.home:
                 processUpButton();
-                break;
+                return true;
+
             default:
-                super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
-        return true;
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
+
+        if (null != currentFragment) {
+            currentFragment.onBringToFront();
+        } else {
+            Log.d("onBackStackChanged", "null == currentFragment");
+        }
     }
 
 
+    // Интерфейсные методы
     @Override
     public void showBoardsOnDvach() {
         BoardsList_Fragment boardsListFragment = new BoardsList_Fragment();
@@ -110,6 +135,7 @@ public class FragmentsHoldingPage extends BaseView implements
     }
 
 
+    // Внутренние методы
     private void processUpButton() {
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
 

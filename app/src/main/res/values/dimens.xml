@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="progress_message_font_size">16sp</dimen>
+
+    <!-- Это к шаблону -->
     <dimen name="list_item_font_size">16sp</dimen>
+
+    <dimen name="boards_list_font_size">18sp</dimen>
+    <dimen name="threads_list_font_size">18sp</dimen>
 </resources>

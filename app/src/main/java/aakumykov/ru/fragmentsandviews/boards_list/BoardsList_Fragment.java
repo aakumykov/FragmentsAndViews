@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import aakumykov.ru.fragmentsandviews.interfaces.iDvachPagesInteraction;
 import aakumykov.ru.fragmentsandviews.models.BoardsList.BoardsTOCItem;
 import aakumykov.ru.fragmentsandviews.services.DvachService;
 import aakumykov.ru.fragmentsandviews.services.iDvachService;
+import aakumykov.ru.fragmentsandviews.utils.MyUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
@@ -32,6 +34,8 @@ public class BoardsList_Fragment extends BaseFragment implements
 //    @BindView(R.id.swipeRefresh) SwipeRefreshLayout swipeRefreshLayout;
 //    private SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.listView) ListView listView;
+    View headerView;
+    TextView headerInfoView;
 
     public static final String TAG = "BoardsList_Fragment";
     private iDvachService dvachService;
@@ -41,6 +45,17 @@ public class BoardsList_Fragment extends BaseFragment implements
 
     private iDvachPagesInteraction dvachPagesInteraction;
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof iDvachPagesInteraction) {
+            dvachPagesInteraction = (iDvachPagesInteraction) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement iDvachPagesInteraction");
+        }
+    }
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,26 +70,13 @@ public class BoardsList_Fragment extends BaseFragment implements
         listAdapter = new BoardsList_Adapter(getContext(), R.layout.boards_list_item, list);
         listView.setAdapter(listAdapter);
 
+//        headerView = getLayoutInflater().inflate(R.layout.boards_list_header, null);
+//        headerInfoView = headerView.findViewById(R.id.headerInfoView);
+//        listView.addHeaderView(headerView);
+
         setDefaultPageTitle();
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof iDvachPagesInteraction) {
-            dvachPagesInteraction = (iDvachPagesInteraction) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement iDvachPagesInteraction");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        dvachPagesInteraction = null;
     }
 
     @Override
@@ -87,12 +89,20 @@ public class BoardsList_Fragment extends BaseFragment implements
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        dvachPagesInteraction = null;
+    }
+
+    @Override
     public void onRefresh() {
         loadBoardsList();
     }
 
     @OnItemClick(R.id.listView)
     void onItemClicked(int position) {
+        showToast(String.valueOf(position));
+
         BoardsTOCItem item = list.get(position);
         String boardId = item.getId();
         dvachPagesInteraction.showThreadsInBoard(boardId);
@@ -137,12 +147,30 @@ public class BoardsList_Fragment extends BaseFragment implements
     }
 
     private void displayBoardsList(Map<String, List<BoardsTOCItem>> tocMap) {
+        List<BoardsTOCItem> systemCategories = new ArrayList<>();
+        List<BoardsTOCItem> userCategories = new ArrayList<>();
+
         listAdapter.clear();
+
         for (Map.Entry entry : tocMap.entrySet()) {
-            String group = entry.getKey().toString();
             List<BoardsTOCItem> boardsInGroup = (List<BoardsTOCItem>) entry.getValue();
-            list.addAll(boardsInGroup);
+
+            for (int j=0; j < boardsInGroup.size(); j++) {
+                BoardsTOCItem board = boardsInGroup.get(j);
+                if (board.isUserCategory()) userCategories.add(board);
+                else systemCategories.add(board);
+            }
+
+            list.addAll(systemCategories);
             listAdapter.notifyDataSetChanged();
+//            headerInfoView.setText("Системных досок: "+systemCategories.size());
+
+            list.addAll(userCategories);
+            listAdapter.notifyDataSetChanged();
+//            String headerText = headerInfoView.getText().toString();
+//            headerInfoView.setText(headerText + "\n" + "Пользовательских досок: "+userCategories.size());
+
+//            MyUtils.show(headerInfoView);
         }
     }
 

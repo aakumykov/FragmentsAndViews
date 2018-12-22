@@ -8,6 +8,7 @@ public interface iBaseFragment {
     void hideProgressMessage();
 
     void showToast(int messageId);
+    void showToast(String message);
 
     void showErrorMsg(int messageId);
     void showErrorMsg(int messageId, String messageForConsole);

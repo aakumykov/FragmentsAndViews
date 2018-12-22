@@ -41,6 +41,17 @@ public class ThreadsList_Fragment extends BaseFragment {
 
     private iDvachPagesInteraction dvachPagesInteraction;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof iDvachPagesInteraction) {
+            dvachPagesInteraction = (iDvachPagesInteraction) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement iDvachPagesInteraction");
+        }
+    }
+
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -69,14 +80,18 @@ public class ThreadsList_Fragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof iDvachPagesInteraction) {
-            dvachPagesInteraction = (iDvachPagesInteraction) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement iDvachPagesInteraction");
-        }
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
