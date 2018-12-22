@@ -13,8 +13,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".TEMPLATE.Page__View" />
         <activity android:name=".TEMPLATE.List_View" />
-
         <activity android:name=".FragmentsHoldingPage">
+
+        </activity>
+        <activity android:name=".ReCaptchaTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

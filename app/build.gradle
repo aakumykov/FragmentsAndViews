@@ -49,4 +49,8 @@ dependencies {
 
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.11.3'
+
+    // reCaptcha
+    implementation 'com.google.android.gms:play-services-safetynet:16.0.0'
+
 }
