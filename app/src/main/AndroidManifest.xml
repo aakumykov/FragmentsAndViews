@@ -14,7 +14,7 @@
 
         <activity android:name="ru.aakumykov.dvachreader.re_captcha.ReCaptchaTest"/>
 
-        <activity android:name="ru.aakumykov.dvachreader.FragmentsHoldingPage">
+        <activity android:name="ru.aakumykov.dvachreader.HoldingPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

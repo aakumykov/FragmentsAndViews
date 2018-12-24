@@ -1,4 +1,4 @@
-package ru.aakumykov.dvachreader;
+package ru.aakumykov.dvachreader.base_classes;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.ActionBar;

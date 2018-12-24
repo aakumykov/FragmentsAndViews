@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spinner_items">
+        <item>@string/SPINNER_empty_item</item>
+        <item>@string/SPINNER_boards_list</item>
+        <item>@string/SPINNER_sex_board</item>
+    </string-array>
+
+</resources>

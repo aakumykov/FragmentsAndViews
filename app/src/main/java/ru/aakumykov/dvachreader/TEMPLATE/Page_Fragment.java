@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import ru.aakumykov.dvachreader.BaseFragment;
+import ru.aakumykov.dvachreader.base_classes.Fragment;
 import ru.aakumykov.fragmentsandviews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Page_Fragment extends BaseFragment {
+public class Page_Fragment extends Fragment {
 
     public interface iInteractionListener {
         void onButtonClicked(String message);

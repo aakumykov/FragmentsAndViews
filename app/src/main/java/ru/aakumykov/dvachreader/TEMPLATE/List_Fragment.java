@@ -12,7 +12,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.aakumykov.dvachreader.BaseFragment;
+import ru.aakumykov.dvachreader.base_classes.Fragment;
 import ru.aakumykov.fragmentsandviews.R;
 import ru.aakumykov.dvachreader.models.Element;
 import butterknife.BindView;
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 
-public class List_Fragment extends BaseFragment {
+public class List_Fragment extends Fragment {
 
     public interface iInteractionListener {
         void onListItemClicked(int position);

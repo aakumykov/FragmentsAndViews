@@ -1,17 +1,17 @@
-package ru.aakumykov.dvachreader;
+package ru.aakumykov.dvachreader.base_classes;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ru.aakumykov.dvachreader.interfaces.iFragment;
 import ru.aakumykov.dvachreader.interfaces.iPage;
 import ru.aakumykov.dvachreader.utils.MyUtils;
 import ru.aakumykov.fragmentsandviews.R;
 
-public abstract class BaseFragment extends Fragment implements iBaseFragment {
+public abstract class Fragment extends android.support.v4.app.Fragment implements iFragment {
 
     private iPage page;
 

@@ -2,32 +2,43 @@ package ru.aakumykov.dvachreader;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import ru.aakumykov.dvachreader.base_classes.Fragment;
+import ru.aakumykov.dvachreader.base_classes.BaseView;
 import ru.aakumykov.dvachreader.boards_list.BoardsList_Fragment;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
 import ru.aakumykov.dvachreader.thread_show.ThreadShow_Fragment;
 import ru.aakumykov.dvachreader.threads_list.ThreadsList_Fragment;
 import ru.aakumykov.fragmentsandviews.R;
 
-public class FragmentsHoldingPage extends BaseView implements
+public class HoldingPage extends BaseView implements
         iDvachPagesInteraction,
-        FragmentManager.OnBackStackChangedListener
+        FragmentManager.OnBackStackChangedListener,
+        AdapterView.OnItemSelectedListener
 {
     private FragmentManager fragmentManager;
     private boolean firstRun = true;
-
+    private int selectedSpinnerItem = 0;
 
     // Системные методы
     @SuppressLint("CommitTransaction") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.single_page_activity);
+        setContentView(R.layout.holding_page_activity);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar)
+            actionBar.setDisplayShowTitleEnabled(false);
 
         fragmentManager = getSupportFragmentManager();
     }
@@ -52,6 +63,18 @@ public class FragmentsHoldingPage extends BaseView implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.holding_page_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.actionSpinner);
+        Spinner spinner = (Spinner) item.getActionView();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -71,13 +94,35 @@ public class FragmentsHoldingPage extends BaseView implements
 
     @Override
     public void onBackStackChanged() {
-        BaseFragment currentFragment = (BaseFragment) fragmentManager.findFragmentById(R.id.fragment_place);
+        Fragment currentFragment = (Fragment) fragmentManager.findFragmentById(R.id.fragment_place);
 
         if (null != currentFragment) {
             currentFragment.onBringToFront();
         } else {
             Log.d("onBackStackChanged", "null == currentFragment");
         }
+    }
+
+    @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position != selectedSpinnerItem) {
+
+            selectedSpinnerItem = position;
+
+            switch (position) {
+                case 0:
+                    break;
+                case 1:
+                    showBoardsOnDvach();
+                    break;
+                case 2:
+                    showThreadsInBoard("sex");
+                    break;
+            }
+        }
+    }
+
+    @Override public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
 
@@ -102,7 +147,7 @@ public class FragmentsHoldingPage extends BaseView implements
         ThreadsList_Fragment threadsListFragment = new ThreadsList_Fragment();
         threadsListFragment.setArguments(arguments);
 
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
+        android.support.v4.app.Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
         if (null != currentFragment)
             fragmentTransaction.hide(currentFragment);
 
@@ -124,7 +169,7 @@ public class FragmentsHoldingPage extends BaseView implements
         ThreadShow_Fragment threadShowFragment = new ThreadShow_Fragment();
         threadShowFragment.setArguments(arguments);
 
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
+        android.support.v4.app.Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null != currentFragment)
@@ -137,7 +182,7 @@ public class FragmentsHoldingPage extends BaseView implements
 
     // Внутренние методы
     private void processUpButton() {
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
+        android.support.v4.app.Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_place);
 
         if (currentFragment instanceof BoardsList_Fragment) {
             return;

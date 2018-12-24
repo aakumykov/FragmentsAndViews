@@ -20,4 +20,8 @@
     <string name="MENU_read_with_voice">Прочитать голосом</string>
     <string name="MESSAGE_not_implemented_yet">Ещё не реализовано</string>
     <string name="MENU_captcha">Проверочная картинка</string>
+    <string name="MENU_spinner">Выпадающий список</string>
+    <string name="SPINNER_boards_list">Список досок</string>
+    <string name="SPINNER_sex_board">Секс и отношения</string>
+    <string name="SPINNER_empty_item" translatable="false">-----</string>
 </resources>

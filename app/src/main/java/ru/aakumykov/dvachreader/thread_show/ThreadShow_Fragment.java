@@ -16,7 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.aakumykov.dvachreader.BaseFragment;
+import ru.aakumykov.dvachreader.base_classes.Fragment;
 import ru.aakumykov.dvachreader.Constants;
 import ru.aakumykov.fragmentsandviews.R;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 
-public class ThreadShow_Fragment extends BaseFragment {
+public class ThreadShow_Fragment extends Fragment {
 
     @BindView(R.id.listView) ListView listView;
 

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.aakumykov.dvachreader.BaseFragment;
+import ru.aakumykov.dvachreader.base_classes.Fragment;
 import ru.aakumykov.dvachreader.Constants;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
 import ru.aakumykov.dvachreader.models.Board.Board;
@@ -25,7 +25,7 @@ import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 import ru.aakumykov.fragmentsandviews.R;
 
-public class ThreadsList_Fragment extends BaseFragment {
+public class ThreadsList_Fragment extends Fragment {
 
 
     @BindView(R.id.listView) ListView listView;

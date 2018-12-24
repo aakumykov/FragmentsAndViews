@@ -21,4 +21,7 @@
     <string name="MENU_read_with_voice">Read with voice</string>
     <string name="MESSAGE_not_implemented_yet">Not implemented yet</string>
     <string name="MENU_captcha">CAPTCHA</string>
+    <string name="MENU_spinner">Dropdown list</string>
+    <string name="SPINNER_boards_list">Boards_list</string>
+    <string name="SPINNER_sex_board">Sex and relationships</string>
 </resources>

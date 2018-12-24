@@ -2,7 +2,7 @@ package ru.aakumykov.dvachreader.TEMPLATE;
 
 import android.os.Bundle;
 
-import ru.aakumykov.dvachreader.BaseView;
+import ru.aakumykov.dvachreader.base_classes.BaseView;
 import ru.aakumykov.fragmentsandviews.R;
 
 public class Page__View extends BaseView implements

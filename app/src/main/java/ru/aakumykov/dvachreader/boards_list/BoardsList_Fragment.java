@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ru.aakumykov.dvachreader.BaseFragment;
+import ru.aakumykov.dvachreader.base_classes.Fragment;
 import ru.aakumykov.dvachreader.interfaces.iDvachPagesInteraction;
 import ru.aakumykov.dvachreader.models.BoardsList.BoardsTOCItem;
 import ru.aakumykov.dvachreader.re_captcha.ReCaptchaTest;
@@ -31,7 +31,7 @@ import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
 import ru.aakumykov.fragmentsandviews.R;
 
-public class BoardsList_Fragment extends BaseFragment implements
+public class BoardsList_Fragment extends Fragment implements
         SwipeRefreshLayout.OnRefreshListener
 {
 
