@@ -51,7 +51,7 @@ public class HoldingPage extends BaseView implements
 
         if (firstRun) {
             firstRun = false;
-            showBoardsOnDvach();
+            showBoardsOnDvach(false);
         }
     }
 
@@ -112,7 +112,7 @@ public class HoldingPage extends BaseView implements
                 case 0:
                     break;
                 case 1:
-                    showBoardsOnDvach();
+                    showBoardsOnDvach(true);
                     break;
                 case 2:
                     showThreadsInBoard("sex");
@@ -128,8 +128,14 @@ public class HoldingPage extends BaseView implements
 
     // Интерфейсные методы
     @Override
-    public void showBoardsOnDvach() {
+    public void showBoardsOnDvach(boolean clearHistory) {
         BoardsList_Fragment boardsListFragment = new BoardsList_Fragment();
+
+        if (clearHistory) {
+            for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                fragmentManager.popBackStack();
+            }
+        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_place, boardsListFragment);
